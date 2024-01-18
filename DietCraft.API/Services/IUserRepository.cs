@@ -11,11 +11,11 @@ namespace DietCraft.API.Services
         public Task<bool> VerifyUserAsync(string username, string password);
         public Task<bool> UserExists(string userName);
         public Task<bool> AddUserAsync(User user);
-        public Task<bool> DeleteUserAsync(User user);
+        public void DeleteUser(User user);
         public Task<bool> SaveChangesAsync();
         public Task<bool> LoginUserAsync(User user, string password, bool rememberMe);
-        public string GetLoggedInUsernameAsync();
-        public Task<bool> LogoutUserAsync();
-        public Task<bool> VerifyUserSession();
+        public Task<User> GetLoggedInUserAsync();
+        public Task LogoutUserAsync();
+        public bool VerifyUserSession();    
     }
 }

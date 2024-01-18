@@ -18,8 +18,7 @@ namespace DietCraft.API.Services
         public UserRepository(DietCraftContext context, IHttpContextAccessor httpContextAccessor)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
-            _httpContextAccessor = httpContextAccessor;
-            ;
+            _httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
         }
 
         public async Task<IEnumerable<User>> GetUsersAsync()
@@ -98,19 +97,9 @@ namespace DietCraft.API.Services
             return false;
         }
 
-        public async Task<bool> DeleteUserAsync(User user)
+        public void DeleteUser(User user)
         {
-            if(String.IsNullOrEmpty(user.UserName)) return false;
-
-            bool userExists = await UserExists(user.UserName);
-
-            if (userExists)
-            {
-                _context.Users.Remove(user);
-                return true;
-            }
-
-            return false;
+            _context.Users.Remove(user);
         }
 
         public async Task<bool> SaveChangesAsync()
@@ -151,26 +140,25 @@ namespace DietCraft.API.Services
             return false;
         }
 
-        public async Task<bool> LogoutUserAsync()
+        public async Task LogoutUserAsync()
         {
-            bool isLogged =  _httpContextAccessor.HttpContext.User.Identity.IsAuthenticated;
-            if (isLogged)
-            {
-                await _httpContextAccessor.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-                return true;
-            }
-
-            return false;
+            await _httpContextAccessor.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         }
-        public string GetLoggedInUsernameAsync()
+        public async Task<User> GetLoggedInUserAsync()
         {
-            var usernameClaim = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name);
-            return usernameClaim?.Value;
+            var usernameClaim = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.Name);
+            if (usernameClaim == null)
+                return null;
+
+            var user = await GetUserByNameAsync(usernameClaim.Value);
+
+            if(user == null) return null;
+                return user;
         }
 
-        public Task<bool> VerifyUserSession()
+        public bool VerifyUserSession()
         {
-            throw new NotImplementedException();
+            return _httpContextAccessor.HttpContext.User.Identity.IsAuthenticated;
         }
     }
 }

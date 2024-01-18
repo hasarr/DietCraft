@@ -23,6 +23,8 @@ namespace DietCraft.API.Controllers
         private readonly IMapper _mapper;
         private IUserRepository _userRepository { get; }
 
+
+
         public UsersController(DietCraftContext context, IMapper mapper, IUserRepository userRepository)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
@@ -30,7 +32,8 @@ namespace DietCraft.API.Controllers
             _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
         }
 
-        // GET: api/Users
+
+
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserDto>>> GetUsers()
         {
@@ -39,7 +42,8 @@ namespace DietCraft.API.Controllers
             return Ok(usersDto);
         }
 
-        // GET: api/Users/5
+
+
         [HttpGet("{userName}")]
         public async Task<ActionResult<UserDto>> GetUserByName(string userName)
         {
@@ -49,34 +53,48 @@ namespace DietCraft.API.Controllers
             else return Ok(_mapper.Map<UserDto>(user));
         }
 
+
+
         [HttpPost("login")]
         public async Task<ActionResult<string>> Login([Required] UserLoginDto user, [Required] bool rememberMe)
         {
+            var isLoggedIn = _userRepository.VerifyUserSession();
+                if(isLoggedIn) return Ok("You are already logged in");
+
             var fullUser = await _userRepository.GetUserByNameAsync(user.UserName);
-            if(fullUser == null)
+            if (fullUser == null)
                 return NotFound("User not found");
 
             bool isValid = await _userRepository.LoginUserAsync(fullUser, user.Password,rememberMe);
             if (isValid)
-            {
-                return Ok("Zalogowano");
-            }
-            return Unauthorized("Nie zalogowano");
+                return Ok("Logged in");
+
+            return Unauthorized("Not authorized to log in");
         }
+
+
 
         [HttpPost("logout")]
         public async Task<ActionResult<bool>> LogOut()
         {
-            if(await _userRepository.LogoutUserAsync())
-                return Ok("You were successfully logged out");
-            else return BadRequest("You are not logged in");
+            if(!_userRepository.VerifyUserSession())
+                return Unauthorized("You are not logged in");
+
+            await _userRepository.LogoutUserAsync();
+            return Ok("You were successfully logged out");
         }
 
+
+
         [HttpGet("loggedAs")]
-        public string GetLoggedInUsername()
+        public async Task<ActionResult<User>> GetLoggedInUser()
         {
-            return _userRepository.GetLoggedInUsernameAsync();
+            var user = await _userRepository.GetLoggedInUserAsync();
+            if(user == null)
+                return Unauthorized("You are not logged in as a User");
+            return Ok(user);
         }
+
 
 
         [HttpPost("create")]
@@ -99,10 +117,25 @@ namespace DietCraft.API.Controllers
 
         }
 
+
+
         [HttpDelete("delete")]
         public async Task<ActionResult<UserDto>> DeleteUser(string userName)
         {
-            return null;
+            bool userExists = await _userRepository.UserExists(userName);
+            if(!userExists)
+                return BadRequest($"User with username of {userName} does not exist");
+
+            var user = await _userRepository.GetUserByNameAsync(userName);
+            if (user != null)
+            {
+                _userRepository.DeleteUser(user);
+                await _userRepository.SaveChangesAsync();
+                return Ok($"User with username of {userName} was deleted");
+            }
+
+            return Conflict($"Something went wrong while deleteing user with userName: {userName}");
+             
         }
     }
 }
