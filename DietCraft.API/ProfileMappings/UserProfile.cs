@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DietCraft.API.Models.User;
 
 namespace DietCraft.API.ProfileMappings
 {
@@ -6,8 +7,8 @@ namespace DietCraft.API.ProfileMappings
     {
         public UserProfile() 
         {
-            CreateMap<Entities.User, Models.UserDto>();
-            CreateMap<Models.UserForCreationDto, Entities.User>()
+            CreateMap<Entities.User, UserDto>();
+            CreateMap<UserForCreationDto, Entities.User>()
                 .ForMember(dest => dest.PasswordHash, opt => opt.MapFrom(src => src.Password));
         }
     }

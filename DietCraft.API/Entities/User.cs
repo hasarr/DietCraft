@@ -13,27 +13,25 @@ namespace DietCraft.API.Entities
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(50)]
+        [MaxLength(100)]
         public string FirstName { get; set; } 
 
         [Required]
-        [MaxLength(50)]
+        [MaxLength(100)]
         public string LastName { get; set; } 
 
         [Required]
-        [MaxLength(50)]
+        [MaxLength(150)]
         public string Email { get; set; }
 
         [Required]
-        [MaxLength(50)]
+        [MaxLength(20)]
         public string UserName { get; set; }
 
         [Required]
-        [MaxLength(50)]
+        [MaxLength(100)]
         public string PasswordHash { get; set; }
 
-        [Required]
-        [MaxLength(50)]
-        public string Role { get; set; }  = "User";
+        public byte RoleId {  get; set; } = 1;
     }
 }

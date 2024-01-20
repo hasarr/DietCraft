@@ -2,6 +2,7 @@
 using DietCraft.API.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,9 +10,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DietCraft.API.Migrations
 {
     [DbContext(typeof(DietCraftContext))]
-    partial class DietCraftContextModelSnapshot : ModelSnapshot
+    [Migration("20240119152152_RoleEnums")]
+    partial class RoleEnums
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.1");
@@ -29,7 +32,7 @@ namespace DietCraft.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Roles");
+                    b.ToTable("Role");
 
                     b.HasData(
                         new
@@ -92,7 +95,7 @@ namespace DietCraft.API.Migrations
                             Email = "John@gmail.com",
                             FirstName = "John",
                             LastName = "Doe",
-                            PasswordHash = "$2a$10$TMHAwiXlANREaiF2/JYiEuRhV2TqHyB/jiucU4WcL4wNVN/tJ3yoG",
+                            PasswordHash = "$2a$10$ZDTpdDbqjGG4aQ1T0PPYa.eOg0XBcYAkNaedmla5CEkQ4qt2sneEW",
                             RoleId = (byte)1,
                             UserName = "johndoe1"
                         },
@@ -102,7 +105,7 @@ namespace DietCraft.API.Migrations
                             Email = "Alice@gmail.com",
                             FirstName = "Alice",
                             LastName = "Smith",
-                            PasswordHash = "$2a$10$uN0h8dFt7EmeaaWptlxYA.mk5su1kUQVOnlbmytFEoLaTB4XHC41.",
+                            PasswordHash = "$2a$10$ES05Ef1XjeULTRX7Iqd6UeyDUwliklehIlodZrZBhayH./Ke4pTEO",
                             RoleId = (byte)2,
                             UserName = "alicesmith12"
                         });

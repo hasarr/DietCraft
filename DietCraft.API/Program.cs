@@ -19,6 +19,7 @@ builder.Services.AddDbContext<DietCraftContext>(opt =>
     opt.UseSqlite(builder.Configuration["ConnectionStrings:DietCraftDbConnectionString"]));
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>

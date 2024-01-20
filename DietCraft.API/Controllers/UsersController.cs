@@ -7,11 +7,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DietCraft.API.DbContexts;
 using DietCraft.API.Entities;
-using DietCraft.API.Models;
 using AutoMapper;
 using DietCraft.API.Services;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
+using Microsoft.IdentityModel.Tokens;
+using DietCraft.API.Models.User;
+using DietCraft.API.Enums;
 
 namespace DietCraft.API.Controllers
 {
@@ -19,15 +21,13 @@ namespace DietCraft.API.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly DietCraftContext _context;
         private readonly IMapper _mapper;
         private IUserRepository _userRepository { get; }
 
 
 
-        public UsersController(DietCraftContext context, IMapper mapper, IUserRepository userRepository)
+        public UsersController(IMapper mapper, IUserRepository userRepository)
         {
-            _context = context ?? throw new ArgumentNullException(nameof(context));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
         }
@@ -38,6 +38,8 @@ namespace DietCraft.API.Controllers
         public async Task<ActionResult<IEnumerable<UserDto>>> GetUsers()
         {
             var users = await _userRepository.GetUsersAsync();
+            if(users == null)
+                return NotFound("No users found in the database");
             var usersDto = _mapper.Map<IEnumerable<UserDto>>(users);
             return Ok(usersDto);
         }
@@ -102,8 +104,10 @@ namespace DietCraft.API.Controllers
         {
             if(await _userRepository.UserExists(user.UserName))
                 return BadRequest("User with username " + user.UserName + " already exists");
-            if(user.Role != "User" || user.Role != "Admin")
-                return BadRequest("Invalid role set for user, allowed roles: Admin | User");
+            if(user.RoleId != (int) RoleNumber.User 
+                || user.RoleId != (int) RoleNumber.Admin 
+                || user.RoleId != (int) RoleNumber.Moderator) //TODO: Zmienić na LINQ lub pętle
+                return BadRequest("Invalid role set for user");
 
             var hashedPassword = _userRepository.HashPassword(user.Password);
             user.Password = hashedPassword;

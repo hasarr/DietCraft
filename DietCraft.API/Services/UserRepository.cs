@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
+using DietCraft.API.Enums;
 
 namespace DietCraft.API.Services
 {
@@ -23,11 +24,7 @@ namespace DietCraft.API.Services
 
         public async Task<IEnumerable<User>> GetUsersAsync()
         {
-            IQueryable<User> collection = _context.Users;
-
-            var collectionToReturn = await collection.OrderBy(u => u.Id).ToListAsync();
-
-            return collectionToReturn;
+            return await _context.Users.OrderBy(u => u.Id).ToListAsync();;
         }
         
         public async Task<User?> GetUserByNameAsync(string userName)
@@ -117,7 +114,7 @@ namespace DietCraft.API.Services
                     new Claim(ClaimTypes.Email, user.Email),
                     new Claim(ClaimTypes.GivenName, user.FirstName),
                     new Claim(ClaimTypes.Surname, user.LastName),
-                    new Claim(ClaimTypes.Role, user.Role),
+                    new Claim(ClaimTypes.Role, RoleNumber.User.ToString()),
                 };
 
                 var claimsIdentity = new ClaimsIdentity(
