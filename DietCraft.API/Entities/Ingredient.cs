@@ -1,24 +1,26 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.CodeAnalysis;
 
 namespace DietCraft.API.Entities
 {
-    public class UserDiet
+    public class Ingredient
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         [Required]
-        public int DietId { get; set; }
-
-        [ForeignKey("DietId")]
-        public Diet Diet {  get; set; }
+        public string Name { get; set; } = "";
 
         [Required]
-        public int UserId {  get; set; }
+        public decimal Price { get; set; }
 
         [Required]
-        public int MaxKcal { get; set; }
+        public bool IsVegan {  get; set; } = false;
+
+        [AllowNull]
+        public int UserIdIfCustom {  get; set; }
+
     }
 }

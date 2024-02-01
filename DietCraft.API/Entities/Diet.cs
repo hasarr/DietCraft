@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.CodeAnalysis;
 
 namespace DietCraft.API.Entities
 {
@@ -17,12 +18,14 @@ namespace DietCraft.API.Entities
         public int DietTypeId { get; set; }
 
         [Required]
+        [ForeignKey("DietTypeId")]
         public DietType DietType { get; set; }
 
         [Required]
         public bool isCustom { get; set; }
 
-        public int UserIdIfCustomDiet { get; set; } = 0;
+        [AllowNull]
+        public int UserIdIfCustom { get; set; }
 
     }
 }
