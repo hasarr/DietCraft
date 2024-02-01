@@ -3,15 +3,19 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DietCraft.API.Entities
 {
-    public class Role
+    public class UserDiet
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public byte Id {  get; set; }
+        public int Id { get; set; }
 
         [Required]
-        [MaxLength(15)]
-        public string Name { get; set; }
+        public int DietId { get; set; }
 
+        [Required]
+        public int UserId {  get; set; }
+
+        [Required]
+        public int MaxKcal { get; set; }
     }
 }

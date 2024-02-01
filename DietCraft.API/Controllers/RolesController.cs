@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using DietCraft.API.Entities;
+using DietCraft.API.Enums;
 using DietCraft.API.Models.Role;
 using DietCraft.API.Models.User;
 using DietCraft.API.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace DietCraft.API.Controllers
 {
@@ -23,6 +25,7 @@ namespace DietCraft.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<RoleDto>>> GetRoles()
         {
+
             var roles = await _roleRepository.GetRolesAsync();
             if(roles == null)
                 return NotFound("No roles found in the database");

@@ -14,6 +14,7 @@ using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using DietCraft.API.Models.User;
 using DietCraft.API.Enums;
+using Microsoft.OpenApi.Extensions;
 
 namespace DietCraft.API.Controllers
 {
@@ -22,6 +23,7 @@ namespace DietCraft.API.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IMapper _mapper;
+
         private IUserRepository _userRepository { get; }
 
 
@@ -67,9 +69,12 @@ namespace DietCraft.API.Controllers
             if (fullUser == null)
                 return NotFound("User not found");
 
-            bool isValid = await _userRepository.LoginUserAsync(fullUser, user.Password,rememberMe);
-            if (isValid)
+            bool isVerified = await _userRepository.VerifyCredentialsAsync(user.UserName, user.Password);
+            if (isVerified)
+            { 
+                await _userRepository.LoginUserAsync(fullUser, user.Password, rememberMe);
                 return Ok("Logged in");
+            }
 
             return Unauthorized("Not authorized to log in");
         }
@@ -102,19 +107,18 @@ namespace DietCraft.API.Controllers
         [HttpPost("create")]
         public async Task<ActionResult<UserDto>> CreateUser([Required] UserForCreationDto user)
         {
-            if(await _userRepository.UserExists(user.UserName))
+            if(await _userRepository.UserExistsAsync(user.UserName))
                 return BadRequest("User with username " + user.UserName + " already exists");
-            if(user.RoleId != (int) RoleNumber.User 
-                || user.RoleId != (int) RoleNumber.Admin 
-                || user.RoleId != (int) RoleNumber.Moderator) //TODO: Zmienić na LINQ lub pętle
-                return BadRequest("Invalid role set for user");
 
+            bool roleExists = Enum.IsDefined(typeof(RoleNumber),user.RoleId);
+            if(!roleExists)
+                return BadRequest("Role does not exist");
             var hashedPassword = _userRepository.HashPassword(user.Password);
             user.Password = hashedPassword;
 
             var userToReturn = _mapper.Map<User>(user);
 
-            await _userRepository.AddUserAsync(userToReturn);
+            _userRepository.AddUserAsync(userToReturn);
             await _userRepository.SaveChangesAsync();
 
             return Created();
@@ -126,7 +130,7 @@ namespace DietCraft.API.Controllers
         [HttpDelete("delete")]
         public async Task<ActionResult<UserDto>> DeleteUser(string userName)
         {
-            bool userExists = await _userRepository.UserExists(userName);
+            bool userExists = await _userRepository.UserExistsAsync(userName);
             if(!userExists)
                 return BadRequest($"User with username of {userName} does not exist");
 

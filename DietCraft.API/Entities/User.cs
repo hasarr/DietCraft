@@ -32,6 +32,10 @@ namespace DietCraft.API.Entities
         [MaxLength(100)]
         public string PasswordHash { get; set; }
 
+        [Required]
         public byte RoleId {  get; set; } = 1;
+
+        [ForeignKey("RoleId")]
+        public Role Role {  get; set; }
     }
 }

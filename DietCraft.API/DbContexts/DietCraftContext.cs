@@ -9,8 +9,14 @@ namespace DietCraft.API.DbContexts
 {
     public class DietCraftContext : DbContext
     {
+        #region DbSets
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
+        public DbSet<Diet> Diets {  get; set; }
+        public DbSet<DietType> DietTypes { get; set; }
+        public DbSet<UserDiet> UserDiets { get; set; }
+        #endregion
+
         public IServiceProvider _serviceProvider;
         public DietCraftContext(DbContextOptions<DietCraftContext> options, IServiceProvider serviceProvider)
             : base(options) //provide options when context is registered in Program.cs
@@ -25,13 +31,17 @@ namespace DietCraft.API.DbContexts
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //TODO: Seeding from ENUM
-
-            modelBuilder.Entity<Role>().HasData(
-                new Role{ Id = 1, Name = "User"},
-                new Role{ Id = 2, Name = "Moderator"},
-                new Role{ Id = 3, Name = "Admin"}
-                );
+            byte roleId = 0;
+            foreach(var role in Enum.GetValues(typeof(RoleNumber)) )
+            {
+                roleId++;
+                modelBuilder.Entity<Role>().HasData(
+                    new Role
+                    {
+                        Id = roleId,
+                        Name = role.ToString()
+                    });
+            }
 
                 using (var scope = _serviceProvider.CreateScope())
                 {

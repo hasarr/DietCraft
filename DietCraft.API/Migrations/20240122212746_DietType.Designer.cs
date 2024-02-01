@@ -2,6 +2,7 @@
 using DietCraft.API.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,9 +10,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DietCraft.API.Migrations
 {
     [DbContext(typeof(DietCraftContext))]
-    partial class DietCraftContextModelSnapshot : ModelSnapshot
+    [Migration("20240122212746_DietType")]
+    partial class DietType
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.1");
@@ -69,7 +72,7 @@ namespace DietCraft.API.Migrations
 
             modelBuilder.Entity("DietCraft.API.Entities.Role", b =>
                 {
-                    b.Property<byte>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -85,17 +88,17 @@ namespace DietCraft.API.Migrations
                     b.HasData(
                         new
                         {
-                            Id = (byte)1,
+                            Id = 1,
                             Name = "User"
                         },
                         new
                         {
-                            Id = (byte)2,
+                            Id = 2,
                             Name = "Moderator"
                         },
                         new
                         {
-                            Id = (byte)3,
+                            Id = 3,
                             Name = "Admin"
                         });
                 });
@@ -136,8 +139,6 @@ namespace DietCraft.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RoleId");
-
                     b.HasIndex("UserName")
                         .IsUnique();
 
@@ -150,7 +151,7 @@ namespace DietCraft.API.Migrations
                             Email = "John@gmail.com",
                             FirstName = "John",
                             LastName = "Doe",
-                            PasswordHash = "$2a$10$zVZE7ruiAwBhJ/RQsCuaTO.7CQi7zhYyeEtvaka1gu8D1DyZNplgu",
+                            PasswordHash = "$2a$10$VgrSA.W79.880yTpbxby4eXJ8HX007xkvGhtf.Vo6Tq6kOVtKz0va",
                             RoleId = (byte)1,
                             UserName = "johndoe1"
                         },
@@ -160,7 +161,7 @@ namespace DietCraft.API.Migrations
                             Email = "Alice@gmail.com",
                             FirstName = "Alice",
                             LastName = "Smith",
-                            PasswordHash = "$2a$10$ihXwUVjMNtV4A8c5T69j0eYjNFu83XSQ9o0g8QNDib4sfqJf8K/4y",
+                            PasswordHash = "$2a$10$CjjVlLtGIUrPg3ybYxgls.9bGeMkFcvu6TMDyzFhfMPkgTZiSe5d.",
                             RoleId = (byte)2,
                             UserName = "alicesmith12"
                         });
@@ -195,17 +196,6 @@ namespace DietCraft.API.Migrations
                         .IsRequired();
 
                     b.Navigation("DietType");
-                });
-
-            modelBuilder.Entity("DietCraft.API.Entities.User", b =>
-                {
-                    b.HasOne("DietCraft.API.Entities.Role", "Role")
-                        .WithMany()
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Role");
                 });
 #pragma warning restore 612, 618
         }

@@ -29,31 +29,20 @@ namespace DietCraft.API.Services
         
         public async Task<User?> GetUserByNameAsync(string userName)
         {
-            var userExists = await UserExists(userName);
+            var userExists = await UserExistsAsync(userName);
             if (!userExists) 
                 return null; 
 
             var user = await _context.Users.Where(u => u.UserName == userName).FirstOrDefaultAsync();
-
-            if(user != null)
-                return user;
-
-            return null;
-
+            return user;
         }
 
-        public async Task<bool> VerifyUserAsync(string userName, string password)
+        public async Task<bool> VerifyCredentialsAsync(string userName, string password)
         {
-            if(await UserExists(userName))
+            if(await UserExistsAsync(userName))
             {
                 var user = await _context.Users.Where(u => u.UserName == userName).FirstOrDefaultAsync();
-
-                if(user != null)
-                { 
-                    return VerifyPassword(password, user.PasswordHash);
-                }
-               
-                return false;
+                return BCrypt.Net.BCrypt.Verify(password, user.PasswordHash);
             }
 
             return false;
@@ -61,37 +50,19 @@ namespace DietCraft.API.Services
 
         public string HashPassword(string password)
         {
-            // GenerateSalt() generuje losową sól
             string salt = BCrypt.Net.BCrypt.GenerateSalt();
-
-            // HashPassword() używa generowanej soli do haszowania hasła
             string hashedPassword = BCrypt.Net.BCrypt.HashPassword(password, salt);
             return hashedPassword;
         }
 
-        public bool VerifyPassword(string plainTextPassword, string passwordHash)
-        {
-            return  BCrypt.Net.BCrypt.Verify(plainTextPassword, passwordHash);
-        }
-
-        public async Task<bool> UserExists(string userName)
+        public async Task<bool> UserExistsAsync(string userName)
         {
             return await _context.Users.AnyAsync(c => c.UserName == userName);
         }
 
-        public async Task<bool> AddUserAsync(User user)
+        public void AddUserAsync(User user)
         {
-            if(user == null) return false;
-
-            bool userExists = await UserExists(user.UserName);
-
-            if (!userExists)
-            {
-                _context.Users.Add(user);
-                return true;
-            }
-
-            return false;
+            _context.Users.Add(user);
         }
 
         public void DeleteUser(User user)
@@ -104,10 +75,8 @@ namespace DietCraft.API.Services
             return (await _context.SaveChangesAsync() > 0);
         }
 
-        public async Task<bool> LoginUserAsync(User user, string password, bool rememberMe)
+        public async Task LoginUserAsync(User user, string password, bool rememberMe)
         {
-            if(await VerifyUserAsync(user.UserName, password))
-            {
                 var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, user.UserName),
@@ -130,11 +99,6 @@ namespace DietCraft.API.Services
                 CookieAuthenticationDefaults.AuthenticationScheme,
                 new ClaimsPrincipal(claimsIdentity),
                 authProperties);
-                return true;
-                
-            }
-
-            return false;
         }
 
         public async Task LogoutUserAsync()
