@@ -1,32 +1,32 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.CodeAnalysis;
-using Microsoft.EntityFrameworkCore;
 
 namespace DietCraft.API.Entities
 {
-    public class IngredientsForMeal
+    public class ShoppingList
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        public ICollection<Ingredient> Ingredient { get; set; }
+        [Required]
+        public string Name { get; set; }
+
+        [Required]
+        public int UserId {  get; set; }
+
+        [Required]
+        public User User {  get; set; }
+
+        public ICollection<Ingredient> Ingredients { get; set;}
                 = new List<Ingredient>();
 
+        [Required]
         [ForeignKey("MealId")]
         public Meal Meal { get; set; }
 
+        [Required]
         public int MealId { get; set; } 
 
-        public bool IsOptional {  get; set; }
-
-        [AllowNull]
-        public decimal Grams {  get; set; }
-
-        [AllowNull]
-        public decimal Mililiters { get; set;}
-
-        public int Quantity { get; set;}
     }
 }

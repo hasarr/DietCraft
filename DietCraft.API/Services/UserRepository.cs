@@ -22,9 +22,19 @@ namespace DietCraft.API.Services
             _httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
         }
 
-        public async Task<IEnumerable<User>> GetUsersAsync()
+        public async Task<(IEnumerable<User>, PaginationMetadata)> GetUsersAsync(int pageNumber, int pageSize)
         {
-            return await _context.Users.OrderBy(u => u.Id).ToListAsync();;
+            var collection = _context.Users as IQueryable<User>;
+            var totalItemCount = await collection.CountAsync();
+
+            var paginationMetaData = new PaginationMetadata(totalItemCount, pageSize, pageNumber);
+            var collectionToReturn = await collection
+                .OrderBy(x => x.Id)
+                .Skip(pageSize * (pageNumber - 1))
+                .Take(pageSize)
+                .ToListAsync();
+
+            return (collectionToReturn, paginationMetaData);
         }
         
         public async Task<User?> GetUserByNameAsync(string userName)

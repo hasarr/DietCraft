@@ -15,6 +15,7 @@ using Microsoft.IdentityModel.Tokens;
 using DietCraft.API.Models.User;
 using DietCraft.API.Enums;
 using Microsoft.OpenApi.Extensions;
+using Newtonsoft.Json;
 
 namespace DietCraft.API.Controllers
 {
@@ -23,6 +24,7 @@ namespace DietCraft.API.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IMapper _mapper;
+        const int MaxUsersPageSize = 5;
 
         private IUserRepository _userRepository { get; }
 
@@ -37,13 +39,19 @@ namespace DietCraft.API.Controllers
 
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserDto>>> GetUsers()
-        {
-            var users = await _userRepository.GetUsersAsync();
+        public async Task<ActionResult<IEnumerable<UserDto>>> GetUsers(int pageNumber, int pageSize)
+        {   
+            pageSize = pageSize > MaxUsersPageSize ? 5 : pageSize;
+            pageNumber = pageNumber > 0 ? pageNumber : 1;
+
+            var (users, paginationMetaData) = await _userRepository.GetUsersAsync(pageNumber, pageSize);
             if(users == null)
                 return NotFound("No users found in the database");
-            var usersDto = _mapper.Map<IEnumerable<UserDto>>(users);
-            return Ok(usersDto);
+
+            Response.Headers.Append("X-Pagination",
+                JsonConvert.SerializeObject(paginationMetaData));
+
+            return Ok(_mapper.Map<IEnumerable<UserDto>>(users));
         }
 
 

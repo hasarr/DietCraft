@@ -1,8 +1,9 @@
-using DietCraft.API.DbContexts;
+﻿using DietCraft.API.DbContexts;
 using DietCraft.API.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
+using DietCraft.API.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 

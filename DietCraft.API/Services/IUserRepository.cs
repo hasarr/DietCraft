@@ -5,7 +5,7 @@ namespace DietCraft.API.Services
     public interface IUserRepository
     {
         public string HashPassword(string password);
-        public Task<IEnumerable<User>>  GetUsersAsync();
+        public Task<(IEnumerable<User>, PaginationMetadata)>  GetUsersAsync(int pageNumber, int pageSize);
         public Task<User?> GetUserByNameAsync(string userName);
         public Task<bool> VerifyCredentialsAsync(string username, string password);
         public Task<bool> UserExistsAsync(string userName);
