@@ -2,6 +2,7 @@
 using DietCraft.API.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,9 +10,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DietCraft.API.Migrations
 {
     [DbContext(typeof(DietCraftContext))]
-    partial class DietCraftContextModelSnapshot : ModelSnapshot
+    [Migration("20240212165412_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.1");
@@ -40,7 +43,7 @@ namespace DietCraft.API.Migrations
 
                     b.HasIndex("DietTypeId");
 
-                    b.ToTable("Diets", (string)null);
+                    b.ToTable("Diets");
 
                     b.HasData(
                         new
@@ -106,7 +109,7 @@ namespace DietCraft.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DietTypes", (string)null);
+                    b.ToTable("DietTypes");
 
                     b.HasData(
                         new
@@ -181,140 +184,63 @@ namespace DietCraft.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Ingredients", (string)null);
+                    b.ToTable("Ingredients");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
-                            CarbGram = 0,
+                            CarbGram = 10,
                             FatGram = 0,
                             IsVegan = true,
-                            Kcal = 0,
-                            Name = "Jajka",
-                            Price = 1.0m,
-                            ProteinGram = 0
+                            Kcal = 50,
+                            Name = "Broccoli",
+                            Price = 3.5m,
+                            ProteinGram = 3
                         },
                         new
                         {
                             Id = 2,
                             CarbGram = 0,
-                            FatGram = 0,
+                            FatGram = 10,
                             IsVegan = false,
-                            Kcal = 0,
-                            Name = "Szpinak",
-                            Price = 2.0m,
-                            ProteinGram = 0
+                            Kcal = 200,
+                            Name = "Chicken",
+                            Price = 7.5m,
+                            ProteinGram = 20
                         },
                         new
                         {
                             Id = 3,
                             CarbGram = 0,
-                            FatGram = 0,
-                            IsVegan = true,
-                            Kcal = 0,
-                            Name = "Pomidory",
-                            Price = 3.0m,
-                            ProteinGram = 0
+                            FatGram = 15,
+                            IsVegan = false,
+                            Kcal = 250,
+                            Name = "Salmon",
+                            Price = 10.0m,
+                            ProteinGram = 22
                         },
                         new
                         {
                             Id = 4,
-                            CarbGram = 0,
-                            FatGram = 0,
-                            IsVegan = false,
-                            Kcal = 0,
-                            Name = "Kurczak",
-                            Price = 4.0m,
-                            ProteinGram = 0
+                            CarbGram = 25,
+                            FatGram = 2,
+                            IsVegan = true,
+                            Kcal = 120,
+                            Name = "Quinoa",
+                            Price = 5.0m,
+                            ProteinGram = 4
                         },
                         new
                         {
                             Id = 5,
                             CarbGram = 0,
-                            FatGram = 0,
-                            IsVegan = true,
-                            Kcal = 0,
-                            Name = "Oliwa z oliwek",
-                            Price = 5.0m,
-                            ProteinGram = 0
-                        },
-                        new
-                        {
-                            Id = 6,
-                            CarbGram = 0,
-                            FatGram = 0,
+                            FatGram = 20,
                             IsVegan = false,
-                            Kcal = 0,
-                            Name = "Brokuły",
-                            Price = 6.0m,
-                            ProteinGram = 0
-                        },
-                        new
-                        {
-                            Id = 7,
-                            CarbGram = 0,
-                            FatGram = 0,
-                            IsVegan = true,
-                            Kcal = 0,
-                            Name = "Cebula",
-                            Price = 7.0m,
-                            ProteinGram = 0
-                        },
-                        new
-                        {
-                            Id = 8,
-                            CarbGram = 0,
-                            FatGram = 0,
-                            IsVegan = false,
-                            Kcal = 0,
-                            Name = "Ryż",
-                            Price = 8.0m,
-                            ProteinGram = 0
-                        },
-                        new
-                        {
-                            Id = 9,
-                            CarbGram = 0,
-                            FatGram = 0,
-                            IsVegan = true,
-                            Kcal = 0,
-                            Name = "Marchewka",
-                            Price = 9.0m,
-                            ProteinGram = 0
-                        },
-                        new
-                        {
-                            Id = 10,
-                            CarbGram = 0,
-                            FatGram = 0,
-                            IsVegan = false,
-                            Kcal = 0,
-                            Name = "Tuńczyk",
-                            Price = 10.0m,
-                            ProteinGram = 0
-                        },
-                        new
-                        {
-                            Id = 11,
-                            CarbGram = 0,
-                            FatGram = 0,
-                            IsVegan = true,
-                            Kcal = 0,
-                            Name = "Ogórki",
-                            Price = 11.0m,
-                            ProteinGram = 0
-                        },
-                        new
-                        {
-                            Id = 12,
-                            CarbGram = 0,
-                            FatGram = 0,
-                            IsVegan = false,
-                            Kcal = 0,
-                            Name = "Ser",
+                            Kcal = 300,
+                            Name = "Beef",
                             Price = 12.0m,
-                            ProteinGram = 0
+                            ProteinGram = 25
                         });
                 });
 
@@ -348,109 +274,7 @@ namespace DietCraft.API.Migrations
 
                     b.HasIndex("MealId");
 
-                    b.ToTable("IngredientsForMeals", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Grams = 100m,
-                            IngredientId = 1,
-                            IsOptional = false,
-                            MealId = 1,
-                            Mililiters = 0m,
-                            Quantity = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Grams = 150m,
-                            IngredientId = 2,
-                            IsOptional = true,
-                            MealId = 1,
-                            Mililiters = 0m,
-                            Quantity = 1
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Grams = 50m,
-                            IngredientId = 3,
-                            IsOptional = true,
-                            MealId = 1,
-                            Mililiters = 0m,
-                            Quantity = 1
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Grams = 80m,
-                            IngredientId = 4,
-                            IsOptional = true,
-                            MealId = 1,
-                            Mililiters = 0m,
-                            Quantity = 1
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Grams = 100m,
-                            IngredientId = 3,
-                            IsOptional = false,
-                            MealId = 2,
-                            Mililiters = 0m,
-                            Quantity = 1
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Grams = 80m,
-                            IngredientId = 5,
-                            IsOptional = false,
-                            MealId = 2,
-                            Mililiters = 0m,
-                            Quantity = 1
-                        },
-                        new
-                        {
-                            Id = 7,
-                            Grams = 120m,
-                            IngredientId = 6,
-                            IsOptional = false,
-                            MealId = 2,
-                            Mililiters = 0m,
-                            Quantity = 1
-                        },
-                        new
-                        {
-                            Id = 8,
-                            Grams = 150m,
-                            IngredientId = 4,
-                            IsOptional = false,
-                            MealId = 3,
-                            Mililiters = 0m,
-                            Quantity = 1
-                        },
-                        new
-                        {
-                            Id = 9,
-                            Grams = 100m,
-                            IngredientId = 8,
-                            IsOptional = false,
-                            MealId = 3,
-                            Mililiters = 0m,
-                            Quantity = 1
-                        },
-                        new
-                        {
-                            Id = 10,
-                            Grams = 80m,
-                            IngredientId = 9,
-                            IsOptional = true,
-                            MealId = 3,
-                            Mililiters = 0m,
-                            Quantity = 1
-                        });
+                    b.ToTable("IngredientsForMeals");
                 });
 
             modelBuilder.Entity("DietCraft.API.Entities.Meal", b =>
@@ -471,28 +295,42 @@ namespace DietCraft.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Meals", (string)null);
+                    b.ToTable("Meals");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
-                            IsVegan = false,
-                            Name = "Jajecznica",
+                            IsVegan = true,
+                            Name = "Broccoli Salad",
                             UserIdIfCustom = 0
                         },
                         new
                         {
                             Id = 2,
-                            IsVegan = true,
-                            Name = "Sałatka grecka",
+                            IsVegan = false,
+                            Name = "Grilled Chicken",
                             UserIdIfCustom = 0
                         },
                         new
                         {
                             Id = 3,
                             IsVegan = false,
-                            Name = "Kurczak z ryżem",
+                            Name = "Salmon Fillet",
+                            UserIdIfCustom = 0
+                        },
+                        new
+                        {
+                            Id = 4,
+                            IsVegan = true,
+                            Name = "Quinoa Bowl",
+                            UserIdIfCustom = 0
+                        },
+                        new
+                        {
+                            Id = 5,
+                            IsVegan = false,
+                            Name = "Beef Stir Fry",
                             UserIdIfCustom = 0
                         });
                 });
@@ -525,7 +363,7 @@ namespace DietCraft.API.Migrations
 
                     b.HasIndex("MealId");
 
-                    b.ToTable("Recipes", (string)null);
+                    b.ToTable("Recipes");
 
                     b.HasData(
                         new
@@ -588,7 +426,7 @@ namespace DietCraft.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Roles", (string)null);
+                    b.ToTable("Roles");
 
                     b.HasData(
                         new
@@ -635,7 +473,7 @@ namespace DietCraft.API.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("ShoppingLists", (string)null);
+                    b.ToTable("ShoppingLists");
 
                     b.HasData(
                         new
@@ -691,7 +529,7 @@ namespace DietCraft.API.Migrations
 
                     b.HasIndex("ShoppingListId");
 
-                    b.ToTable("ShoppingListIngredients", (string)null);
+                    b.ToTable("ShoppingListIngredients");
 
                     b.HasData(
                         new
@@ -772,7 +610,7 @@ namespace DietCraft.API.Migrations
                     b.HasIndex("UserName")
                         .IsUnique();
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
 
                     b.HasData(
                         new
@@ -782,7 +620,7 @@ namespace DietCraft.API.Migrations
                             FirstName = "John",
                             LastName = "Doe",
                             PasswordHash = "hashed_password",
-                            RoleId = (byte)1,
+                            RoleId = (byte)2,
                             UserName = "john_doe"
                         },
                         new
@@ -848,7 +686,7 @@ namespace DietCraft.API.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserDiets", (string)null);
+                    b.ToTable("UserDiets");
 
                     b.HasData(
                         new

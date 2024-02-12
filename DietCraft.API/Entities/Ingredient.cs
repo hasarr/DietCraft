@@ -11,16 +11,26 @@ namespace DietCraft.API.Entities
         public int Id { get; set; }
 
         [Required]
-        public string Name { get; set; } = "";
+        public string Name { get; set; }
 
         [Required]
         public decimal Price { get; set; }
 
         [Required]
-        public bool IsVegan {  get; set; } = false;
+        public bool IsVegan { get; set; }
 
-        [AllowNull]
-        public int UserIdIfCustom {  get; set; }
+        [Required]
+        public int Kcal { get; set; } // Kalorie
 
+        [Required]
+        public int ProteinGram { get; set; } // Białko w gramach
+
+        [Required]
+        public int CarbGram { get; set; } // Węglowodany w gramach
+
+        [Required]
+        public int FatGram { get; set; } // Tłuszcze w gramach
     }
 }
+
+

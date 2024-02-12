@@ -2,6 +2,7 @@
 using DietCraft.API.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,9 +10,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DietCraft.API.Migrations
 {
     [DbContext(typeof(DietCraftContext))]
-    partial class DietCraftContextModelSnapshot : ModelSnapshot
+    [Migration("20240212170134_init3")]
+    partial class init3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.1");
@@ -40,7 +43,7 @@ namespace DietCraft.API.Migrations
 
                     b.HasIndex("DietTypeId");
 
-                    b.ToTable("Diets", (string)null);
+                    b.ToTable("Diets");
 
                     b.HasData(
                         new
@@ -106,7 +109,7 @@ namespace DietCraft.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DietTypes", (string)null);
+                    b.ToTable("DietTypes");
 
                     b.HasData(
                         new
@@ -181,7 +184,7 @@ namespace DietCraft.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Ingredients", (string)null);
+                    b.ToTable("Ingredients");
 
                     b.HasData(
                         new
@@ -348,7 +351,7 @@ namespace DietCraft.API.Migrations
 
                     b.HasIndex("MealId");
 
-                    b.ToTable("IngredientsForMeals", (string)null);
+                    b.ToTable("IngredientsForMeals");
 
                     b.HasData(
                         new
@@ -471,7 +474,7 @@ namespace DietCraft.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Meals", (string)null);
+                    b.ToTable("Meals");
 
                     b.HasData(
                         new
@@ -525,7 +528,7 @@ namespace DietCraft.API.Migrations
 
                     b.HasIndex("MealId");
 
-                    b.ToTable("Recipes", (string)null);
+                    b.ToTable("Recipes");
 
                     b.HasData(
                         new
@@ -588,7 +591,7 @@ namespace DietCraft.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Roles", (string)null);
+                    b.ToTable("Roles");
 
                     b.HasData(
                         new
@@ -635,7 +638,7 @@ namespace DietCraft.API.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("ShoppingLists", (string)null);
+                    b.ToTable("ShoppingLists");
 
                     b.HasData(
                         new
@@ -691,7 +694,7 @@ namespace DietCraft.API.Migrations
 
                     b.HasIndex("ShoppingListId");
 
-                    b.ToTable("ShoppingListIngredients", (string)null);
+                    b.ToTable("ShoppingListIngredients");
 
                     b.HasData(
                         new
@@ -772,7 +775,7 @@ namespace DietCraft.API.Migrations
                     b.HasIndex("UserName")
                         .IsUnique();
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
 
                     b.HasData(
                         new
@@ -782,7 +785,7 @@ namespace DietCraft.API.Migrations
                             FirstName = "John",
                             LastName = "Doe",
                             PasswordHash = "hashed_password",
-                            RoleId = (byte)1,
+                            RoleId = (byte)2,
                             UserName = "john_doe"
                         },
                         new
@@ -848,7 +851,7 @@ namespace DietCraft.API.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserDiets", (string)null);
+                    b.ToTable("UserDiets");
 
                     b.HasData(
                         new

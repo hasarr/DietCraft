@@ -11,8 +11,9 @@ namespace DietCraft.API.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        public ICollection<Ingredient> Ingredient { get; set; }
-                = new List<Ingredient>();
+        [ForeignKey(nameof(IngredientId))]
+        public Ingredient Ingredient { get; set; }
+        public int IngredientId { get; set; }
 
         [ForeignKey("MealId")]
         public Meal Meal { get; set; }
