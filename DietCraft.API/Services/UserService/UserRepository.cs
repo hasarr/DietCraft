@@ -9,14 +9,15 @@ using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using DietCraft.API.Enums;
 
-namespace DietCraft.API.Services
+namespace DietCraft.API.Services.UserService
 {
     public class UserRepository : IUserRepository
     {
         private readonly DietCraftContext _context;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public UserRepository(DietCraftContext context, IHttpContextAccessor httpContextAccessor)
+        public UserRepository(DietCraftContext context, IHttpContextAccessor httpContextAccessor
+            , DbSaveService dbSaveService)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
             _httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
@@ -36,12 +37,12 @@ namespace DietCraft.API.Services
 
             return (collectionToReturn, paginationMetaData);
         }
-        
+
         public async Task<User?> GetUserByNameAsync(string userName)
         {
             var userExists = await UserExistsAsync(userName);
-            if (!userExists) 
-                return null; 
+            if (!userExists)
+                return null;
 
             var user = await _context.Users.Where(u => u.UserName == userName).FirstOrDefaultAsync();
             return user;
@@ -49,7 +50,7 @@ namespace DietCraft.API.Services
 
         public async Task<bool> VerifyCredentialsAsync(string userName, string password)
         {
-            if(await UserExistsAsync(userName))
+            if (await UserExistsAsync(userName))
             {
                 var user = await _context.Users.Where(u => u.UserName == userName).FirstOrDefaultAsync();
                 return BCrypt.Net.BCrypt.Verify(password, user.PasswordHash);
@@ -70,7 +71,7 @@ namespace DietCraft.API.Services
             return await _context.Users.AnyAsync(c => c.UserName == userName);
         }
 
-        public void AddUserAsync(User user)
+        public void AddUser(User user)
         {
             _context.Users.Add(user);
         }
@@ -80,14 +81,9 @@ namespace DietCraft.API.Services
             _context.Users.Remove(user);
         }
 
-        public async Task<bool> SaveChangesAsync()
-        {
-            return (await _context.SaveChangesAsync() > 0);
-        }
-
         public async Task LoginUserAsync(User user, string password, bool rememberMe)
         {
-                var claims = new List<Claim>
+            var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, user.UserName),
                     new Claim(ClaimTypes.Email, user.Email),
@@ -96,19 +92,19 @@ namespace DietCraft.API.Services
                     new Claim(ClaimTypes.Role, RoleNumber.User.ToString()),
                 };
 
-                var claimsIdentity = new ClaimsIdentity(
-                    claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var claimsIdentity = new ClaimsIdentity(
+                claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
-                var authProperties = new AuthenticationProperties
-                {
-                    IsPersistent = rememberMe,
-                    ExpiresUtc = rememberMe ? System.DateTime.UtcNow.AddDays(30) : (DateTime?)null
-                };
+            var authProperties = new AuthenticationProperties
+            {
+                IsPersistent = rememberMe,
+                ExpiresUtc = rememberMe ? DateTime.UtcNow.AddDays(30) : (DateTime?)null
+            };
 
-                await _httpContextAccessor.HttpContext.SignInAsync(
-                CookieAuthenticationDefaults.AuthenticationScheme,
-                new ClaimsPrincipal(claimsIdentity),
-                authProperties);
+            await _httpContextAccessor.HttpContext.SignInAsync(
+            CookieAuthenticationDefaults.AuthenticationScheme,
+            new ClaimsPrincipal(claimsIdentity),
+            authProperties);
         }
 
         public async Task LogoutUserAsync()
@@ -123,8 +119,8 @@ namespace DietCraft.API.Services
 
             var user = await GetUserByNameAsync(usernameClaim.Value);
 
-            if(user == null) return null;
-                return user;
+            if (user == null) return null;
+            return user;
         }
 
         public bool VerifyUserSession()

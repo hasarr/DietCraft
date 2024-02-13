@@ -18,15 +18,8 @@ namespace DietCraft.API.Entities
         [Required]
         public User User {  get; set; }
 
-        public ICollection<Ingredient> Ingredients { get; set;}
-                = new List<Ingredient>();
-
-        [Required]
-        [ForeignKey("MealId")]
-        public Meal Meal { get; set; }
-
-        [Required]
-        public int MealId { get; set; } 
+        public ICollection<ShoppingListIngredients> ShoppingListIngredients { get; set;}
+                = new List<ShoppingListIngredients>();
 
     }
 }

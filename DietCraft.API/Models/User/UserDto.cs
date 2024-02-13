@@ -1,4 +1,4 @@
-﻿namespace DietCraft.API.Models.User
+﻿ namespace DietCraft.API.Models.User
 {
     public class UserDto
     {

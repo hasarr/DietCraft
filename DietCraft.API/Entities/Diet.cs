@@ -25,7 +25,7 @@ namespace DietCraft.API.Entities
         public bool isCustom { get; set; }
 
         [AllowNull]
-        public int UserIdIfCustom { get; set; }
+        public int UserIdIfCustom { get; set; } = 0;
 
     }
 }
