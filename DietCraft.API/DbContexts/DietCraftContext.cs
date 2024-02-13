@@ -37,7 +37,13 @@ namespace DietCraft.API.DbContexts
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            BulkInsertService.SeedData(modelBuilder);
+            modelBuilder.Entity<User>()
+            .HasOne(u => u.Role)
+            .WithMany()
+            .HasForeignKey(u => u.RoleId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+            BulkInsertService.SeedData(modelBuilder, _serviceProvider);
             base.OnModelCreating(modelBuilder);
         }
 

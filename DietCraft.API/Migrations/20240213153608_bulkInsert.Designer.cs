@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DietCraft.API.Migrations
 {
     [DbContext(typeof(DietCraftContext))]
-    [Migration("20240212165919_init2")]
-    partial class init2
+    [Migration("20240213153608_bulkInsert")]
+    partial class bulkInsert
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -50,7 +50,7 @@ namespace DietCraft.API.Migrations
                         {
                             Id = 1,
                             DietTypeId = 1,
-                            Name = "Vegan Diet",
+                            Name = "Dieta wegańska",
                             UserIdIfCustom = 0,
                             isCustom = false
                         },
@@ -58,7 +58,7 @@ namespace DietCraft.API.Migrations
                         {
                             Id = 2,
                             DietTypeId = 2,
-                            Name = "Ketogenic Diet",
+                            Name = "Dieta keto",
                             UserIdIfCustom = 0,
                             isCustom = false
                         },
@@ -66,7 +66,7 @@ namespace DietCraft.API.Migrations
                         {
                             Id = 3,
                             DietTypeId = 3,
-                            Name = "Balanced Diet",
+                            Name = "Dieta zbalansowana",
                             UserIdIfCustom = 1,
                             isCustom = true
                         },
@@ -74,7 +74,7 @@ namespace DietCraft.API.Migrations
                         {
                             Id = 4,
                             DietTypeId = 4,
-                            Name = "Low Carb Diet",
+                            Name = "Dieta niskowęglowodanowa",
                             UserIdIfCustom = 2,
                             isCustom = true
                         },
@@ -82,7 +82,7 @@ namespace DietCraft.API.Migrations
                         {
                             Id = 5,
                             DietTypeId = 5,
-                            Name = "Mediterranean Diet",
+                            Name = "Dieta białkowa",
                             UserIdIfCustom = 3,
                             isCustom = true
                         });
@@ -117,7 +117,7 @@ namespace DietCraft.API.Migrations
                             Id = 1,
                             CarbPercent = (byte)50,
                             FatPercent = (byte)25,
-                            Name = "Vegetarian",
+                            Name = "Wege",
                             ProteinPercent = (byte)25
                         },
                         new
@@ -125,7 +125,7 @@ namespace DietCraft.API.Migrations
                             Id = 2,
                             CarbPercent = (byte)10,
                             FatPercent = (byte)60,
-                            Name = "Ketogenic",
+                            Name = "Keto",
                             ProteinPercent = (byte)30
                         },
                         new
@@ -133,7 +133,7 @@ namespace DietCraft.API.Migrations
                             Id = 3,
                             CarbPercent = (byte)40,
                             FatPercent = (byte)30,
-                            Name = "Balanced",
+                            Name = "Balans",
                             ProteinPercent = (byte)30
                         },
                         new
@@ -141,7 +141,7 @@ namespace DietCraft.API.Migrations
                             Id = 4,
                             CarbPercent = (byte)20,
                             FatPercent = (byte)40,
-                            Name = "Low Carb",
+                            Name = "Niskowęglowodanowa",
                             ProteinPercent = (byte)40
                         },
                         new
@@ -149,7 +149,7 @@ namespace DietCraft.API.Migrations
                             Id = 5,
                             CarbPercent = (byte)45,
                             FatPercent = (byte)35,
-                            Name = "Mediterranean",
+                            Name = "Białkowa",
                             ProteinPercent = (byte)20
                         });
                 });
@@ -369,7 +369,7 @@ namespace DietCraft.API.Migrations
                             Id = 2,
                             Grams = 150m,
                             IngredientId = 2,
-                            IsOptional = false,
+                            IsOptional = true,
                             MealId = 1,
                             Mililiters = 0m,
                             Quantity = 1
@@ -379,7 +379,7 @@ namespace DietCraft.API.Migrations
                             Id = 3,
                             Grams = 50m,
                             IngredientId = 3,
-                            IsOptional = false,
+                            IsOptional = true,
                             MealId = 1,
                             Mililiters = 0m,
                             Quantity = 1
@@ -389,7 +389,7 @@ namespace DietCraft.API.Migrations
                             Id = 4,
                             Grams = 80m,
                             IngredientId = 4,
-                            IsOptional = false,
+                            IsOptional = true,
                             MealId = 1,
                             Mililiters = 0m,
                             Quantity = 1
@@ -449,7 +449,7 @@ namespace DietCraft.API.Migrations
                             Id = 10,
                             Grams = 80m,
                             IngredientId = 9,
-                            IsOptional = false,
+                            IsOptional = true,
                             MealId = 3,
                             Mililiters = 0m,
                             Quantity = 1
@@ -536,7 +536,7 @@ namespace DietCraft.API.Migrations
                             Id = 1,
                             DescriptionHTML = "<p>Delicious broccoli salad recipe.</p>",
                             MealId = 1,
-                            Name = "Broccoli Salad Recipe",
+                            Name = "Przepis 1",
                             TitleHTML = "<h1>Broccoli Salad</h1>",
                             isStepByStep = true
                         },
@@ -545,7 +545,7 @@ namespace DietCraft.API.Migrations
                             Id = 2,
                             DescriptionHTML = "<p>Perfectly grilled chicken recipe.</p>",
                             MealId = 2,
-                            Name = "Grilled Chicken Recipe",
+                            Name = "Przepis 2",
                             TitleHTML = "<h1>Grilled Chicken</h1>",
                             isStepByStep = true
                         },
@@ -554,26 +554,8 @@ namespace DietCraft.API.Migrations
                             Id = 3,
                             DescriptionHTML = "<p>Simple and tasty salmon fillet recipe.</p>",
                             MealId = 3,
-                            Name = "Salmon Fillet Recipe",
+                            Name = "Przepis 3",
                             TitleHTML = "<h1>Salmon Fillet</h1>",
-                            isStepByStep = true
-                        },
-                        new
-                        {
-                            Id = 4,
-                            DescriptionHTML = "<p>Healthy and flavorful quinoa bowl recipe.</p>",
-                            MealId = 4,
-                            Name = "Quinoa Bowl Recipe",
-                            TitleHTML = "<h1>Quinoa Bowl</h1>",
-                            isStepByStep = true
-                        },
-                        new
-                        {
-                            Id = 5,
-                            DescriptionHTML = "<p>Quick and easy beef stir fry recipe.</p>",
-                            MealId = 5,
-                            Name = "Beef Stir Fry Recipe",
-                            TitleHTML = "<h1>Beef Stir Fry</h1>",
                             isStepByStep = true
                         });
                 });
@@ -644,31 +626,31 @@ namespace DietCraft.API.Migrations
                         new
                         {
                             Id = 1,
-                            Name = "Weekly Grocery List",
+                            Name = "Lista zakupów 1",
                             UserId = 1
                         },
                         new
                         {
                             Id = 2,
-                            Name = "Monthly Grocery List",
+                            Name = "Lista zakupów 2",
                             UserId = 2
                         },
                         new
                         {
                             Id = 3,
-                            Name = "Family Grocery List",
+                            Name = "Lista zakupów 3",
                             UserId = 3
                         },
                         new
                         {
                             Id = 4,
-                            Name = "Holiday Grocery List",
+                            Name = "Lista zakupów 4",
                             UserId = 4
                         },
                         new
                         {
                             Id = 5,
-                            Name = "Emergency Grocery List",
+                            Name = "Lista zakupów 5",
                             UserId = 5
                         });
                 });
@@ -784,8 +766,8 @@ namespace DietCraft.API.Migrations
                             Email = "john@example.com",
                             FirstName = "John",
                             LastName = "Doe",
-                            PasswordHash = "hashed_password",
-                            RoleId = (byte)2,
+                            PasswordHash = "$2a$10$q8a4rK3A7wblUgM.mAwgheFj.vm9va86QL84yDYz8HA8kwJfLtp9u",
+                            RoleId = (byte)1,
                             UserName = "john_doe"
                         },
                         new
@@ -794,7 +776,7 @@ namespace DietCraft.API.Migrations
                             Email = "alice@example.com",
                             FirstName = "Alice",
                             LastName = "Smith",
-                            PasswordHash = "hashed_password",
+                            PasswordHash = "$2a$10$kpgE5duPhmrRrICec7HiGupGOQ.VwmQCHri0/WxsNL2PHAMT/Ywkm",
                             RoleId = (byte)2,
                             UserName = "alice_smith"
                         },
@@ -804,8 +786,8 @@ namespace DietCraft.API.Migrations
                             Email = "bob@example.com",
                             FirstName = "Bob",
                             LastName = "Johnson",
-                            PasswordHash = "hashed_password",
-                            RoleId = (byte)2,
+                            PasswordHash = "$2a$10$zoPclQTUbuUfmMhxNJw6eutJN4SDvuhDQPgr43z1JXZ4VLuG.3PUK",
+                            RoleId = (byte)3,
                             UserName = "bob_johnson"
                         },
                         new
@@ -814,8 +796,8 @@ namespace DietCraft.API.Migrations
                             Email = "emily@example.com",
                             FirstName = "Emily",
                             LastName = "Brown",
-                            PasswordHash = "hashed_password",
-                            RoleId = (byte)2,
+                            PasswordHash = "$2a$10$.NBMSQ9YQ1iP.XeG59sp6erjnNWHKvz3.PJD11lKPU86OzTiGTMSa",
+                            RoleId = (byte)4,
                             UserName = "emily_brown"
                         },
                         new
@@ -824,8 +806,8 @@ namespace DietCraft.API.Migrations
                             Email = "david@example.com",
                             FirstName = "David",
                             LastName = "Wilson",
-                            PasswordHash = "hashed_password",
-                            RoleId = (byte)2,
+                            PasswordHash = "$2a$10$TJA2TVHEN/E1chHMI58Mc.OzzBJwoYAkJDCulJ/ruW7TjKvc8/3IC",
+                            RoleId = (byte)5,
                             UserName = "david_wilson"
                         });
                 });
@@ -967,7 +949,7 @@ namespace DietCraft.API.Migrations
                     b.HasOne("DietCraft.API.Entities.Role", "Role")
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Role");

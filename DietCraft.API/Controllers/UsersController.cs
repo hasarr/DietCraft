@@ -16,6 +16,7 @@ using DietCraft.API.Models.User;
 using DietCraft.API.Enums;
 using Microsoft.OpenApi.Extensions;
 using Newtonsoft.Json;
+using DietCraft.API.Services.UserService;
 
 namespace DietCraft.API.Controllers
 {
@@ -24,16 +25,16 @@ namespace DietCraft.API.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IMapper _mapper;
-        const int MaxUsersPageSize = 5;
-
+        const int MaxPageSize = 5;
         private IUserRepository _userRepository { get; }
+        private DbSaveService _dbSaveService;
 
-
-
-        public UsersController(IMapper mapper, IUserRepository userRepository)
+        public UsersController(IMapper mapper, IUserRepository userRepository,
+            DbSaveService dbSaveService)
         {
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
+            _dbSaveService = dbSaveService;
         }
 
 
@@ -41,7 +42,7 @@ namespace DietCraft.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserDto>>> GetUsers(int pageNumber, int pageSize)
         {   
-            pageSize = pageSize > MaxUsersPageSize ? 5 : pageSize;
+            pageSize = pageSize > MaxPageSize ? 5 : pageSize;
             pageNumber = pageNumber > 0 ? pageNumber : 1;
 
             var (users, paginationMetaData) = await _userRepository.GetUsersAsync(pageNumber, pageSize);
@@ -112,7 +113,7 @@ namespace DietCraft.API.Controllers
 
 
 
-        [HttpPost("create")]
+        [HttpPost]
         public async Task<ActionResult<UserDto>> CreateUser([Required] UserForCreationDto user)
         {
             if(await _userRepository.UserExistsAsync(user.UserName))
@@ -126,8 +127,8 @@ namespace DietCraft.API.Controllers
 
             var userToReturn = _mapper.Map<User>(user);
 
-            _userRepository.AddUserAsync(userToReturn);
-            await _userRepository.SaveChangesAsync();
+            _userRepository.AddUser(userToReturn);
+            await _dbSaveService.SaveChangesAsync();
 
             return Created();
 
@@ -146,7 +147,7 @@ namespace DietCraft.API.Controllers
             if (user != null)
             {
                 _userRepository.DeleteUser(user);
-                await _userRepository.SaveChangesAsync();
+                await _dbSaveService.SaveChangesAsync();
                 return Ok($"User with username of {userName} was deleted");
             }
 

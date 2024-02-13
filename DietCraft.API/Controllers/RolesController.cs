@@ -3,7 +3,7 @@ using DietCraft.API.Entities;
 using DietCraft.API.Enums;
 using DietCraft.API.Models.Role;
 using DietCraft.API.Models.User;
-using DietCraft.API.Services;
+using DietCraft.API.Services.UserService;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

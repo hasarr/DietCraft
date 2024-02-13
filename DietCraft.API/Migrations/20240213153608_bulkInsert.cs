@@ -7,7 +7,7 @@
 namespace DietCraft.API.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class bulkInsert : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -171,7 +171,7 @@ namespace DietCraft.API.Migrations
                         column: x => x.RoleId,
                         principalTable: "Roles",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -253,11 +253,11 @@ namespace DietCraft.API.Migrations
                 columns: new[] { "Id", "CarbPercent", "FatPercent", "Name", "ProteinPercent" },
                 values: new object[,]
                 {
-                    { 1, (byte)50, (byte)25, "Vegetarian", (byte)25 },
-                    { 2, (byte)10, (byte)60, "Ketogenic", (byte)30 },
-                    { 3, (byte)40, (byte)30, "Balanced", (byte)30 },
-                    { 4, (byte)20, (byte)40, "Low Carb", (byte)40 },
-                    { 5, (byte)45, (byte)35, "Mediterranean", (byte)20 }
+                    { 1, (byte)50, (byte)25, "Wege", (byte)25 },
+                    { 2, (byte)10, (byte)60, "Keto", (byte)30 },
+                    { 3, (byte)40, (byte)30, "Balans", (byte)30 },
+                    { 4, (byte)20, (byte)40, "Niskowęglowodanowa", (byte)40 },
+                    { 5, (byte)45, (byte)35, "Białkowa", (byte)20 }
                 });
 
             migrationBuilder.InsertData(
@@ -265,11 +265,18 @@ namespace DietCraft.API.Migrations
                 columns: new[] { "Id", "CarbGram", "FatGram", "IsVegan", "Kcal", "Name", "Price", "ProteinGram" },
                 values: new object[,]
                 {
-                    { 1, 10, 0, true, 50, "Broccoli", 3.5m, 3 },
-                    { 2, 0, 10, false, 200, "Chicken", 7.5m, 20 },
-                    { 3, 0, 15, false, 250, "Salmon", 10.0m, 22 },
-                    { 4, 25, 2, true, 120, "Quinoa", 5.0m, 4 },
-                    { 5, 0, 20, false, 300, "Beef", 12.0m, 25 }
+                    { 1, 0, 0, true, 0, "Jajka", 1.0m, 0 },
+                    { 2, 0, 0, false, 0, "Szpinak", 2.0m, 0 },
+                    { 3, 0, 0, true, 0, "Pomidory", 3.0m, 0 },
+                    { 4, 0, 0, false, 0, "Kurczak", 4.0m, 0 },
+                    { 5, 0, 0, true, 0, "Oliwa z oliwek", 5.0m, 0 },
+                    { 6, 0, 0, false, 0, "Brokuły", 6.0m, 0 },
+                    { 7, 0, 0, true, 0, "Cebula", 7.0m, 0 },
+                    { 8, 0, 0, false, 0, "Ryż", 8.0m, 0 },
+                    { 9, 0, 0, true, 0, "Marchewka", 9.0m, 0 },
+                    { 10, 0, 0, false, 0, "Tuńczyk", 10.0m, 0 },
+                    { 11, 0, 0, true, 0, "Ogórki", 11.0m, 0 },
+                    { 12, 0, 0, false, 0, "Ser", 12.0m, 0 }
                 });
 
             migrationBuilder.InsertData(
@@ -277,11 +284,9 @@ namespace DietCraft.API.Migrations
                 columns: new[] { "Id", "IsVegan", "Name", "UserIdIfCustom" },
                 values: new object[,]
                 {
-                    { 1, true, "Broccoli Salad", 0 },
-                    { 2, false, "Grilled Chicken", 0 },
-                    { 3, false, "Salmon Fillet", 0 },
-                    { 4, true, "Quinoa Bowl", 0 },
-                    { 5, false, "Beef Stir Fry", 0 }
+                    { 1, false, "Jajecznica", 0 },
+                    { 2, true, "Sałatka grecka", 0 },
+                    { 3, false, "Kurczak z ryżem", 0 }
                 });
 
             migrationBuilder.InsertData(
@@ -301,11 +306,28 @@ namespace DietCraft.API.Migrations
                 columns: new[] { "Id", "DietTypeId", "Name", "UserIdIfCustom", "isCustom" },
                 values: new object[,]
                 {
-                    { 1, 1, "Vegan Diet", 0, false },
-                    { 2, 2, "Ketogenic Diet", 0, false },
-                    { 3, 3, "Balanced Diet", 1, true },
-                    { 4, 4, "Low Carb Diet", 2, true },
-                    { 5, 5, "Mediterranean Diet", 3, true }
+                    { 1, 1, "Dieta wegańska", 0, false },
+                    { 2, 2, "Dieta keto", 0, false },
+                    { 3, 3, "Dieta zbalansowana", 1, true },
+                    { 4, 4, "Dieta niskowęglowodanowa", 2, true },
+                    { 5, 5, "Dieta białkowa", 3, true }
+                });
+
+            migrationBuilder.InsertData(
+                table: "IngredientsForMeals",
+                columns: new[] { "Id", "Grams", "IngredientId", "IsOptional", "MealId", "Mililiters", "Quantity" },
+                values: new object[,]
+                {
+                    { 1, 100m, 1, false, 1, 0m, 1 },
+                    { 2, 150m, 2, true, 1, 0m, 1 },
+                    { 3, 50m, 3, true, 1, 0m, 1 },
+                    { 4, 80m, 4, true, 1, 0m, 1 },
+                    { 5, 100m, 3, false, 2, 0m, 1 },
+                    { 6, 80m, 5, false, 2, 0m, 1 },
+                    { 7, 120m, 6, false, 2, 0m, 1 },
+                    { 8, 150m, 4, false, 3, 0m, 1 },
+                    { 9, 100m, 8, false, 3, 0m, 1 },
+                    { 10, 80m, 9, true, 3, 0m, 1 }
                 });
 
             migrationBuilder.InsertData(
@@ -313,11 +335,9 @@ namespace DietCraft.API.Migrations
                 columns: new[] { "Id", "DescriptionHTML", "MealId", "Name", "TitleHTML", "isStepByStep" },
                 values: new object[,]
                 {
-                    { 1, "<p>Delicious broccoli salad recipe.</p>", 1, "Broccoli Salad Recipe", "<h1>Broccoli Salad</h1>", true },
-                    { 2, "<p>Perfectly grilled chicken recipe.</p>", 2, "Grilled Chicken Recipe", "<h1>Grilled Chicken</h1>", true },
-                    { 3, "<p>Simple and tasty salmon fillet recipe.</p>", 3, "Salmon Fillet Recipe", "<h1>Salmon Fillet</h1>", true },
-                    { 4, "<p>Healthy and flavorful quinoa bowl recipe.</p>", 4, "Quinoa Bowl Recipe", "<h1>Quinoa Bowl</h1>", true },
-                    { 5, "<p>Quick and easy beef stir fry recipe.</p>", 5, "Beef Stir Fry Recipe", "<h1>Beef Stir Fry</h1>", true }
+                    { 1, "<p>Delicious broccoli salad recipe.</p>", 1, "Przepis 1", "<h1>Broccoli Salad</h1>", true },
+                    { 2, "<p>Perfectly grilled chicken recipe.</p>", 2, "Przepis 2", "<h1>Grilled Chicken</h1>", true },
+                    { 3, "<p>Simple and tasty salmon fillet recipe.</p>", 3, "Przepis 3", "<h1>Salmon Fillet</h1>", true }
                 });
 
             migrationBuilder.InsertData(
@@ -325,11 +345,11 @@ namespace DietCraft.API.Migrations
                 columns: new[] { "Id", "Email", "FirstName", "LastName", "PasswordHash", "RoleId", "UserName" },
                 values: new object[,]
                 {
-                    { 1, "john@example.com", "John", "Doe", "hashed_password", (byte)2, "john_doe" },
-                    { 2, "alice@example.com", "Alice", "Smith", "hashed_password", (byte)2, "alice_smith" },
-                    { 3, "bob@example.com", "Bob", "Johnson", "hashed_password", (byte)2, "bob_johnson" },
-                    { 4, "emily@example.com", "Emily", "Brown", "hashed_password", (byte)2, "emily_brown" },
-                    { 5, "david@example.com", "David", "Wilson", "hashed_password", (byte)2, "david_wilson" }
+                    { 1, "john@example.com", "John", "Doe", "$2a$10$q8a4rK3A7wblUgM.mAwgheFj.vm9va86QL84yDYz8HA8kwJfLtp9u", (byte)1, "john_doe" },
+                    { 2, "alice@example.com", "Alice", "Smith", "$2a$10$kpgE5duPhmrRrICec7HiGupGOQ.VwmQCHri0/WxsNL2PHAMT/Ywkm", (byte)2, "alice_smith" },
+                    { 3, "bob@example.com", "Bob", "Johnson", "$2a$10$zoPclQTUbuUfmMhxNJw6eutJN4SDvuhDQPgr43z1JXZ4VLuG.3PUK", (byte)3, "bob_johnson" },
+                    { 4, "emily@example.com", "Emily", "Brown", "$2a$10$.NBMSQ9YQ1iP.XeG59sp6erjnNWHKvz3.PJD11lKPU86OzTiGTMSa", (byte)4, "emily_brown" },
+                    { 5, "david@example.com", "David", "Wilson", "$2a$10$TJA2TVHEN/E1chHMI58Mc.OzzBJwoYAkJDCulJ/ruW7TjKvc8/3IC", (byte)5, "david_wilson" }
                 });
 
             migrationBuilder.InsertData(
@@ -337,11 +357,11 @@ namespace DietCraft.API.Migrations
                 columns: new[] { "Id", "Name", "UserId" },
                 values: new object[,]
                 {
-                    { 1, "Weekly Grocery List", 1 },
-                    { 2, "Monthly Grocery List", 2 },
-                    { 3, "Family Grocery List", 3 },
-                    { 4, "Holiday Grocery List", 4 },
-                    { 5, "Emergency Grocery List", 5 }
+                    { 1, "Lista zakupów 1", 1 },
+                    { 2, "Lista zakupów 2", 2 },
+                    { 3, "Lista zakupów 3", 3 },
+                    { 4, "Lista zakupów 4", 4 },
+                    { 5, "Lista zakupów 5", 5 }
                 });
 
             migrationBuilder.InsertData(

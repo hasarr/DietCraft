@@ -35,6 +35,7 @@ namespace DietCraft.API.Entities
         [Required]
         public byte RoleId {  get; set; } = 1;
 
+        [Required]
         [ForeignKey("RoleId")]
         public Role Role {  get; set; }
     }

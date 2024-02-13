@@ -1,27 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using DietCraft.API.Entities;
+using DietCraft.API.Services.UserService;
 using Microsoft.EntityFrameworkCore;
 
 namespace DietCraft.API.Services
 {
     public class BulkInsertService
     {
-        public static IUserRepository _userRepository;
 
-        public BulkInsertService(IUserRepository userRepository)
+        public static void SeedData(ModelBuilder modelBuilder, IServiceProvider serviceProvider)
         {
-            _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
-        }
-        public static void SeedData(ModelBuilder modelBuilder)
-        {
+            var scope = serviceProvider.CreateScope();
+            var _userRepository = scope.ServiceProvider.GetRequiredService<IUserRepository>();
+
             // Wstawianie danych dla DietType
             modelBuilder.Entity<DietType>().HasData(
-                new DietType { Id = 1, Name = "Vegetarian", CarbPercent = 50, ProteinPercent = 25, FatPercent = 25 },
-                new DietType { Id = 2, Name = "Ketogenic", CarbPercent = 10, ProteinPercent = 30, FatPercent = 60 },
-                new DietType { Id = 3, Name = "Balanced", CarbPercent = 40, ProteinPercent = 30, FatPercent = 30 },
-                new DietType { Id = 4, Name = "Low Carb", CarbPercent = 20, ProteinPercent = 40, FatPercent = 40 },
-                new DietType { Id = 5, Name = "Mediterranean", CarbPercent = 45, ProteinPercent = 20, FatPercent = 35 }
+                new DietType { Id = 1, Name = "Wege", CarbPercent = 50, ProteinPercent = 25, FatPercent = 25 },
+                new DietType { Id = 2, Name = "Keto", CarbPercent = 10, ProteinPercent = 30, FatPercent = 60 },
+                new DietType { Id = 3, Name = "Balans", CarbPercent = 40, ProteinPercent = 30, FatPercent = 30 },
+                new DietType { Id = 4, Name = "Niskowęglowodanowa", CarbPercent = 20, ProteinPercent = 40, FatPercent = 40 },
+                new DietType { Id = 5, Name = "Białkowa", CarbPercent = 45, ProteinPercent = 20, FatPercent = 35 }
             );
 
             // Wstawianie danych dla Ingredient
@@ -43,9 +42,9 @@ namespace DietCraft.API.Services
 
             // Wstawianie danych dla Meal
             modelBuilder.Entity<Meal>().HasData(
-                new Meal { Id = 1, Name = "Jajecznica", IsVegan = false },
-                new Meal { Id = 2, Name = "Sałatka grecka", IsVegan = true },
-                new Meal { Id = 3, Name = "Kurczak z ryżem", IsVegan = false }
+                new Meal { Id = 1, Name = "Jajecznica", IsVegan = false, isCustom = false },
+                new Meal { Id = 2, Name = "Sałatka grecka", IsVegan = true, isCustom = false },
+                new Meal { Id = 3, Name = "Kurczak z ryżem", IsVegan = false, isCustom = true, UserIdIfCustom = 2 }
             );
 
             // Wstawianie danych dla IngredientsForMeal
@@ -68,11 +67,11 @@ namespace DietCraft.API.Services
 
             // Wstawianie danych dla ShoppingList
             modelBuilder.Entity<ShoppingList>().HasData(
-                new ShoppingList { Id = 1, Name = "Weekly Grocery List", UserId = 1 },
-                new ShoppingList { Id = 2, Name = "Monthly Grocery List", UserId = 2 },
-                new ShoppingList { Id = 3, Name = "Family Grocery List", UserId = 3 },
-                new ShoppingList { Id = 4, Name = "Holiday Grocery List", UserId = 4 },
-                new ShoppingList { Id = 5, Name = "Emergency Grocery List", UserId = 5 }
+                new ShoppingList { Id = 1, Name = "Lista zakupów 1", UserId = 1 },
+                new ShoppingList { Id = 2, Name = "Lista zakupów 2", UserId = 2 },
+                new ShoppingList { Id = 3, Name = "Lista zakupów 3", UserId = 3 },
+                new ShoppingList { Id = 4, Name = "Lista zakupów 4", UserId = 4 },
+                new ShoppingList { Id = 5, Name = "Lista zakupów 5", UserId = 5 }
                 // Dodaj więcej list zakupów tutaj...
             );
 
@@ -83,7 +82,6 @@ namespace DietCraft.API.Services
                 new ShoppingListIngredients { Id = 3, ShoppingListId = 2, IngredientId = 3, Quantity = 3 },
                 new ShoppingListIngredients { Id = 4, ShoppingListId = 3, IngredientId = 4, Quantity = 2 },
                 new ShoppingListIngredients { Id = 5, ShoppingListId = 4, IngredientId = 5, Quantity = 1 }
-                // Dodaj więcej elementów ShoppingListIngredients tutaj...
             );
 
             // Wstawianie danych dla innych encji, jeśli wymagane
@@ -98,25 +96,23 @@ namespace DietCraft.API.Services
             modelBuilder.Entity<User>().HasData(
             new User { Id = 1, FirstName = "John", LastName = "Doe", Email = "john@example.com", UserName = "john_doe", PasswordHash = _userRepository.HashPassword("123"), RoleId = 1 },
             new User { Id = 2, FirstName = "Alice", LastName = "Smith", Email = "alice@example.com", UserName = "alice_smith", PasswordHash = _userRepository.HashPassword("123"), RoleId = 2 },
-            new User { Id = 3, FirstName = "Bob", LastName = "Johnson", Email = "bob@example.com", UserName = "bob_johnson", PasswordHash = _userRepository.HashPassword("123"), RoleId = 2 },
-            new User { Id = 4, FirstName = "Emily", LastName = "Brown", Email = "emily@example.com", UserName = "emily_brown", PasswordHash = _userRepository.HashPassword("123"), RoleId = 2 },
-            new User { Id = 5, FirstName = "David", LastName = "Wilson", Email = "david@example.com", UserName = "david_wilson", PasswordHash = _userRepository.HashPassword("123"), RoleId = 2 }
+            new User { Id = 3, FirstName = "Bob", LastName = "Johnson", Email = "bob@example.com", UserName = "bob_johnson", PasswordHash = _userRepository.HashPassword("123"), RoleId = 3 },
+            new User { Id = 4, FirstName = "Emily", LastName = "Brown", Email = "emily@example.com", UserName = "emily_brown", PasswordHash = _userRepository.HashPassword("123"), RoleId = 4 },
+            new User { Id = 5, FirstName = "David", LastName = "Wilson", Email = "david@example.com", UserName = "david_wilson", PasswordHash = _userRepository.HashPassword("123"), RoleId = 5 }
             );
 
             modelBuilder.Entity<Diet>().HasData(
-                new Diet { Id = 1, Name = "Vegan Diet", DietTypeId = 1, isCustom = false, UserIdIfCustom = 0 },
-                new Diet { Id = 2, Name = "Ketogenic Diet", DietTypeId = 2, isCustom = false, UserIdIfCustom = 0 },
-                new Diet { Id = 3, Name = "Balanced Diet", DietTypeId = 3, isCustom = true, UserIdIfCustom = 1 },
-                new Diet { Id = 4, Name = "Low Carb Diet", DietTypeId = 4, isCustom = true, UserIdIfCustom = 2 },
-                new Diet { Id = 5, Name = "Mediterranean Diet", DietTypeId = 5, isCustom = true, UserIdIfCustom = 3 }
+                new Diet { Id = 1, Name = "Dieta wegańska", DietTypeId = 1, isCustom = false, UserIdIfCustom = 0 },
+                new Diet { Id = 2, Name = "Dieta keto", DietTypeId = 2, isCustom = false, UserIdIfCustom = 0 },
+                new Diet { Id = 3, Name = "Dieta zbalansowana", DietTypeId = 3, isCustom = true, UserIdIfCustom = 1 },
+                new Diet { Id = 4, Name = "Dieta niskowęglowodanowa", DietTypeId = 4, isCustom = true, UserIdIfCustom = 2 },
+                new Diet { Id = 5, Name = "Dieta białkowa", DietTypeId = 5, isCustom = true, UserIdIfCustom = 3 }
             );
 
             modelBuilder.Entity<Recipe>().HasData(
-                new Recipe { Id = 1, Name = "Broccoli Salad Recipe", DescriptionHTML = "<p>Delicious broccoli salad recipe.</p>", TitleHTML = "<h1>Broccoli Salad</h1>", MealId = 1, isStepByStep = true },
-                new Recipe { Id = 2, Name = "Grilled Chicken Recipe", DescriptionHTML = "<p>Perfectly grilled chicken recipe.</p>", TitleHTML = "<h1>Grilled Chicken</h1>", MealId = 2, isStepByStep = true },
-                new Recipe { Id = 3, Name = "Salmon Fillet Recipe", DescriptionHTML = "<p>Simple and tasty salmon fillet recipe.</p>", TitleHTML = "<h1>Salmon Fillet</h1>", MealId = 3, isStepByStep = true },
-                new Recipe { Id = 4, Name = "Quinoa Bowl Recipe", DescriptionHTML = "<p>Healthy and flavorful quinoa bowl recipe.</p>", TitleHTML = "<h1>Quinoa Bowl</h1>", MealId = 4, isStepByStep = true },
-                new Recipe { Id = 5, Name = "Beef Stir Fry Recipe", DescriptionHTML = "<p>Quick and easy beef stir fry recipe.</p>", TitleHTML = "<h1>Beef Stir Fry</h1>", MealId = 5, isStepByStep = true }
+                new Recipe { Id = 1, Name = "Przepis 1", DescriptionHTML = "<p>Delicious broccoli salad recipe.</p>", TitleHTML = "<h1>Broccoli Salad</h1>", MealId = 1, isStepByStep = true },
+                new Recipe { Id = 2, Name = "Przepis 2", DescriptionHTML = "<p>Perfectly grilled chicken recipe.</p>", TitleHTML = "<h1>Grilled Chicken</h1>", MealId = 2, isStepByStep = true },
+                new Recipe { Id = 3, Name = "Przepis 3", DescriptionHTML = "<p>Simple and tasty salmon fillet recipe.</p>", TitleHTML = "<h1>Salmon Fillet</h1>", MealId = 3, isStepByStep = true }
             );
 
             modelBuilder.Entity<UserDiet>().HasData(
