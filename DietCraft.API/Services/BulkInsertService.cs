@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using DietCraft.API.Entities;
 using DietCraft.API.Services.UserService;
+using DietCraft.API.Services.DietService;
 using Microsoft.EntityFrameworkCore;
 
 namespace DietCraft.API.Services

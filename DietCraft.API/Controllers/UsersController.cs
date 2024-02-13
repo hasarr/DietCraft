@@ -40,7 +40,7 @@ namespace DietCraft.API.Controllers
 
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserDto>>> GetUsers(int pageNumber, int pageSize)
+        public async Task<ActionResult<IEnumerable<UserDto>>> GetUsers([Required] int pageNumber = 1, [Required] int pageSize = 5)
         {   
             pageSize = pageSize > MaxPageSize ? 5 : pageSize;
             pageNumber = pageNumber > 0 ? pageNumber : 1;
@@ -58,7 +58,7 @@ namespace DietCraft.API.Controllers
 
 
         [HttpGet("{userName}")]
-        public async Task<ActionResult<UserDto>> GetUserByName(string userName)
+        public async Task<ActionResult<UserDto>> GetUserByName([Required] string userName)
         {
             var user = await _userRepository.GetUserByNameAsync(userName);
             if (user == null)
@@ -137,7 +137,7 @@ namespace DietCraft.API.Controllers
 
 
         [HttpDelete("delete")]
-        public async Task<ActionResult<UserDto>> DeleteUser(string userName)
+        public async Task<ActionResult<UserDto>> DeleteUser([Required] string userName)
         {
             bool userExists = await _userRepository.UserExistsAsync(userName);
             if(!userExists)
