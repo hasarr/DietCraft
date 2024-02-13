@@ -18,11 +18,9 @@ namespace DietCraft.API.Entities
         [Required]
         public string TitleHTML { get; set; }
 
-        [Required]
         [ForeignKey("MealId")]
         public Meal Meal { get; set; }
 
-        [Required]
         public int MealId {  get; set; }
 
         [Required]

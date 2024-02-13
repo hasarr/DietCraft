@@ -2,8 +2,10 @@
 {
     public enum RoleNumber
     {
-        User = 1,
-        Moderator = 2,
-        Admin = 3,
+        Admin = 1,
+        User = 2,
+        Manager = 3,
+        Viewer = 4,
+        Tester = 5
     }   
 }

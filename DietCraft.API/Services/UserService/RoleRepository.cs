@@ -2,7 +2,7 @@
 using DietCraft.API.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace DietCraft.API.Services
+namespace DietCraft.API.Services.UserService
 {
     public class RoleRepository : IRoleRepository
     {

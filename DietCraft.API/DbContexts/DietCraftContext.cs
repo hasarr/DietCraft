@@ -23,7 +23,8 @@ namespace DietCraft.API.DbContexts
         #endregion
 
         public IServiceProvider _serviceProvider;
-        public DietCraftContext(DbContextOptions<DietCraftContext> options, IServiceProvider serviceProvider)
+        public DietCraftContext(DbContextOptions<DietCraftContext> options
+            , IServiceProvider serviceProvider)
             : base(options) //provide options when context is registered in Program.cs
         {
             _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
@@ -36,50 +37,17 @@ namespace DietCraft.API.DbContexts
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            byte roleId = 0;
-            foreach(var role in Enum.GetValues(typeof(RoleNumber)) )
-            {
-                roleId++;
-                modelBuilder.Entity<Role>().HasData(
-                    new Role
-                    {
-                        Id = roleId,
-                        Name = role.ToString()
-                    });
-            }
+            modelBuilder.Entity<User>()
+            .HasOne(u => u.Role)
+            .WithMany()
+            .HasForeignKey(u => u.RoleId)
+            .OnDelete(DeleteBehavior.Restrict);
 
-                using (var scope = _serviceProvider.CreateScope())
-                {
-                    var userRepository = scope.ServiceProvider.GetRequiredService<IUserRepository>();
-                    
-                    modelBuilder.Entity<User>().HasData(
-                        new User
-                        {
-                            Id = 1,
-                            FirstName = "John",
-                            LastName = "Doe",
-                            PasswordHash = userRepository.HashPassword("password_1"),
-                            Email = "John@gmail.com",
-                            RoleId = (int) RoleNumber.User,
-                            UserName = "johndoe1"
-                        },
-                        new User
-                        {
-                            Id = 2,
-                            FirstName = "Alice",
-                            LastName = "Smith",
-                            PasswordHash = userRepository.HashPassword("hashed_password_2"),
-                            Email = "Alice@gmail.com",
-                            RoleId = (int) RoleNumber.Moderator,
-                            UserName = "alicesmith12"
-                        });
-
-
-                }
-                base.OnModelCreating(modelBuilder);
-
-            
+            BulkInsertService.SeedData(modelBuilder, _serviceProvider);
+            base.OnModelCreating(modelBuilder);
         }
+
+
 
     }
 }

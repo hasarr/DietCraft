@@ -14,12 +14,13 @@ namespace DietCraft.API.Entities
         public string? Name { get; set; }
 
         [Required]
-        public int Kcal {  get; set; }
+        public bool IsVegan {  get; set; }
 
         [Required]
-        public bool IsVegan {  get; set; }
+        public bool isCustom {  get; set; }
 
         [AllowNull]
         public int UserIdIfCustom {  get; set; }
+
     }
 }

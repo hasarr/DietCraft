@@ -11,14 +11,19 @@ namespace DietCraft.API.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        public ICollection<Ingredient> Ingredient { get; set; }
-                = new List<Ingredient>();
+        [ForeignKey(nameof(IngredientId))]
+        public Ingredient Ingredient { get; set; }
+
+        public int IngredientId { get; set; }
 
         [ForeignKey("MealId")]
+        [Required]
         public Meal Meal { get; set; }
 
+        [Required]
         public int MealId { get; set; } 
 
+        [Required]
         public bool IsOptional {  get; set; }
 
         [AllowNull]
@@ -27,6 +32,8 @@ namespace DietCraft.API.Entities
         [AllowNull]
         public decimal Mililiters { get; set;}
 
+        [Required]
         public int Quantity { get; set;}
+
     }
 }
