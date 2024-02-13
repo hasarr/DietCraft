@@ -32,7 +32,7 @@ namespace DietCraft.API.Controllers
 
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<DietDto>>> GetDiets(int pageNumber, int pageSize)
+        public async Task<ActionResult<IEnumerable<DietDto>>> GetDiets([Required] int pageNumber = 1,[Required] int pageSize = 5)
         {
             pageSize = pageSize > MaxPageSize ? 5 : pageSize;
             pageNumber = pageNumber > 0 ? pageNumber : 1;
@@ -48,7 +48,7 @@ namespace DietCraft.API.Controllers
         }
 
         [HttpGet("{dietId}")]
-        public async Task<ActionResult<DietDto>> GetDiet(int dietId)
+        public async Task<ActionResult<DietDto>> GetDiet([Required] int dietId)
         {
             var diet = await _dietRepository.GetDietByIdAsync(dietId);
             if (diet == null)
@@ -71,7 +71,7 @@ namespace DietCraft.API.Controllers
         }
 
         [HttpPut("{dietId}")]
-        public async Task<ActionResult> UpdateDiet(int dietId, DietForUpdateDto diet)
+        public async Task<ActionResult> UpdateDiet([Required] int dietId, [Required] DietForUpdateDto diet)
         {
             if (!await _dietRepository.DietExistsAsync(dietId))
             {
@@ -100,7 +100,7 @@ namespace DietCraft.API.Controllers
         }
 
         [HttpDelete("{dietId}")]
-        public async Task<ActionResult> DeleteDiet(int dietId)
+        public async Task<ActionResult> DeleteDiet([Required] int dietId)
         {
             bool dietExists = await _dietRepository.DietExistsAsync(dietId);
             if(!dietExists)
