@@ -49,20 +49,20 @@ namespace DietCraft.API.Services
             );
 
             // Wstawianie danych dla IngredientsForMeal
-            modelBuilder.Entity<IngredientsForMeal>().HasData(
+            modelBuilder.Entity<MealIngredients>().HasData(
                 // Dodaj składniki dla każdego posiłku
-                new IngredientsForMeal { Id = 1, MealId = 1, IngredientId = 1, IsOptional = false, Grams = 100, Mililiters = 0, Quantity = 1 },
-                new IngredientsForMeal { Id = 2, MealId = 1, IngredientId = 2, IsOptional = true, Grams = 150, Mililiters = 0, Quantity = 1 },
-                new IngredientsForMeal { Id = 3, MealId = 1, IngredientId = 3, IsOptional = true, Grams = 50, Mililiters = 0, Quantity = 1 },
-                new IngredientsForMeal { Id = 4, MealId = 1, IngredientId = 4, IsOptional = true, Grams = 80, Mililiters = 0, Quantity = 1 },
+                new MealIngredients { Id = 1, MealId = 1, IngredientId = 1, IsOptional = false, Grams = 100, Mililiters = 0, Quantity = 1 },
+                new MealIngredients { Id = 2, MealId = 1, IngredientId = 2, IsOptional = true, Grams = 150, Mililiters = 0, Quantity = 1 },
+                new MealIngredients { Id = 3, MealId = 1, IngredientId = 3, IsOptional = true, Grams = 50, Mililiters = 0, Quantity = 1 },
+                new MealIngredients { Id = 4, MealId = 1, IngredientId = 4, IsOptional = true, Grams = 80, Mililiters = 0, Quantity = 1 },
 
-                new IngredientsForMeal { Id = 5, MealId = 2, IngredientId = 3, IsOptional = false, Grams = 100, Mililiters = 0, Quantity = 1 },
-                new IngredientsForMeal { Id = 6, MealId = 2, IngredientId = 5, IsOptional = false, Grams = 80, Mililiters = 0, Quantity = 1 },
-                new IngredientsForMeal { Id = 7, MealId = 2, IngredientId = 6, IsOptional = false, Grams = 120, Mililiters = 0, Quantity = 1 },
+                new MealIngredients { Id = 5, MealId = 2, IngredientId = 3, IsOptional = false, Grams = 100, Mililiters = 0, Quantity = 1 },
+                new MealIngredients { Id = 6, MealId = 2, IngredientId = 5, IsOptional = false, Grams = 80, Mililiters = 0, Quantity = 1 },
+                new MealIngredients { Id = 7, MealId = 2, IngredientId = 6, IsOptional = false, Grams = 120, Mililiters = 0, Quantity = 1 },
 
-                new IngredientsForMeal { Id = 8, MealId = 3, IngredientId = 4, IsOptional = false, Grams = 150, Mililiters = 0, Quantity = 1 },
-                new IngredientsForMeal { Id = 9, MealId = 3, IngredientId = 8, IsOptional = false, Grams = 100, Mililiters = 0, Quantity = 1 },
-                new IngredientsForMeal { Id = 10, MealId = 3, IngredientId = 9, IsOptional = true, Grams = 80, Mililiters = 0, Quantity = 1 }
+                new MealIngredients { Id = 8, MealId = 3, IngredientId = 4, IsOptional = false, Grams = 150, Mililiters = 0, Quantity = 1 },
+                new MealIngredients { Id = 9, MealId = 3, IngredientId = 8, IsOptional = false, Grams = 100, Mililiters = 0, Quantity = 1 },
+                new MealIngredients { Id = 10, MealId = 3, IngredientId = 9, IsOptional = true, Grams = 80, Mililiters = 0, Quantity = 1 }
             );
 
 

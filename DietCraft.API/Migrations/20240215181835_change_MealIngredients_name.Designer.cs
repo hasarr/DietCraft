@@ -2,6 +2,7 @@
 using DietCraft.API.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,9 +10,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DietCraft.API.Migrations
 {
     [DbContext(typeof(DietCraftContext))]
-    partial class DietCraftContextModelSnapshot : ModelSnapshot
+    [Migration("20240215181835_change_MealIngredients_name")]
+    partial class change_MealIngredients_name
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.2");
@@ -423,7 +426,7 @@ namespace DietCraft.API.Migrations
 
                     b.HasIndex("MealId");
 
-                    b.ToTable("MealIngredients");
+                    b.ToTable("IngredientsForMeals");
 
                     b.HasData(
                         new
@@ -804,7 +807,7 @@ namespace DietCraft.API.Migrations
                             Email = "john@example.com",
                             FirstName = "John",
                             LastName = "Doe",
-                            PasswordHash = "$2a$10$RUvIrvplu8B1ceIr0A1o8ua1qPj0oS1i8n05aIUNpVBkzC7u5IXa.",
+                            PasswordHash = "$2a$10$neuytSj0rdWuNamjqr6GIuGTRO8MUhBkGtfR9Zy3Y3/UEG29iykSm",
                             RoleId = (byte)1,
                             UserName = "john_doe"
                         },
@@ -814,7 +817,7 @@ namespace DietCraft.API.Migrations
                             Email = "alice@example.com",
                             FirstName = "Alice",
                             LastName = "Smith",
-                            PasswordHash = "$2a$10$TuS9tsKD8G2z1Ltpbk81hewYRDzf2KQGy9F.Sy3VdU4QjFSTFvWkO",
+                            PasswordHash = "$2a$10$3047j/oeOPK/9a5kZqrspOjS/EcJiGStaW0NG2dhEn5jp93WTKDHG",
                             RoleId = (byte)2,
                             UserName = "alice_smith"
                         },
@@ -824,7 +827,7 @@ namespace DietCraft.API.Migrations
                             Email = "bob@example.com",
                             FirstName = "Bob",
                             LastName = "Johnson",
-                            PasswordHash = "$2a$10$eQqw.6ac1JZI5jfApKf/ouGcLAObJ9/wRHxZvBuUUBbzwSfwi.IZi",
+                            PasswordHash = "$2a$10$Q1UiGYiORYWsAlner0mBluY/HL48BQD7NuRxWPMKChsxIZzaDQXzy",
                             RoleId = (byte)3,
                             UserName = "bob_johnson"
                         },
@@ -834,7 +837,7 @@ namespace DietCraft.API.Migrations
                             Email = "emily@example.com",
                             FirstName = "Emily",
                             LastName = "Brown",
-                            PasswordHash = "$2a$10$UQUzdhwdttdVUUIQxJYaK.gf6ccbTdaG.1c.W6tQUOyxSdrnqUOMC",
+                            PasswordHash = "$2a$10$NlLFPlmXEQEbQ5d5BE6vnuurqaKqC2V3b2r7QeRw0l/o8BnCoXI0.",
                             RoleId = (byte)4,
                             UserName = "emily_brown"
                         },
@@ -844,7 +847,7 @@ namespace DietCraft.API.Migrations
                             Email = "david@example.com",
                             FirstName = "David",
                             LastName = "Wilson",
-                            PasswordHash = "$2a$10$d5MgICIKUlP.lZpjlnJoPuKayO4yJY8BBa/v.Yo6r5uZiGictY7/K",
+                            PasswordHash = "$2a$10$Fl734FOcjlns9sV.F4nu3.X2c5sKCy81TOqixTlRuKfPBTKguYQHO",
                             RoleId = (byte)5,
                             UserName = "david_wilson"
                         });
