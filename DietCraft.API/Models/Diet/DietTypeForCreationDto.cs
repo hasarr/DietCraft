@@ -2,10 +2,8 @@
 
 namespace DietCraft.API.Models.Diet
 {
-    public class DietTypeDto
+    public class DietTypeForCreationDto
     {
-        public int Id { get; set; }
-
         [Required]
         public string? Name { get; set; }
 

@@ -78,5 +78,24 @@ namespace DietCraft.API.Services.DietService
 
         }
 
+        public async Task<DietType?> GetDietTypeByIdAsync(int dietTypeId)
+        {
+            var dietTypeExists = await DietTypeExistsAsync(dietTypeId);
+            if (!dietTypeExists)
+                return null;
+
+            var dietType = await _context.DietTypes.Where(d => d.Id == dietTypeId).FirstOrDefaultAsync();
+            return dietType;
+        }
+
+        public void AddDietType(DietType dietType)
+        {
+            _context.DietTypes.Add(dietType);
+        }
+
+        public void DeleteDietType(DietType dietType)
+        {
+            _context.DietTypes.Remove(dietType);
+        }
     }
 }

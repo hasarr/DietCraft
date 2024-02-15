@@ -2,10 +2,8 @@
 
 namespace DietCraft.API.Models.Diet
 {
-    public class DietTypeDto
+    public class DietTypeForUpdateDto
     {
-        public int Id { get; set; }
-
         [Required]
         public string? Name { get; set; }
 
@@ -20,11 +18,5 @@ namespace DietCraft.API.Models.Diet
         [Required]
         [Range(0,100,ErrorMessage = "Percent value must be 0-100")]
         public byte FatPercent {  get; set; }
-
-        [Required]
-        public bool IsCustom { get; set; }
-
-        [Required]
-        public int UserIdIfCustom { get; set; }
     }
 }
