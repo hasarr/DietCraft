@@ -1,9 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
+using Microsoft.EntityFrameworkCore;
 
 namespace DietCraft.API.Entities
 {
+    [Index(nameof(Name), nameof(IsCustom), nameof(UserIdIfCustom), IsUnique = true)]
     public class Meal
     {
         [Key]
@@ -17,7 +19,7 @@ namespace DietCraft.API.Entities
         public bool IsVegan {  get; set; }
 
         [Required]
-        public bool isCustom {  get; set; }
+        public bool IsCustom {  get; set; }
 
         [AllowNull]
         public int UserIdIfCustom {  get; set; }

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 
@@ -20,16 +21,16 @@ namespace DietCraft.API.Entities
         public bool IsVegan { get; set; }
 
         [Required]
-        public int Kcal { get; set; } // Kalorie
+        public int Kcal { get; set; } 
 
         [Required]
-        public int ProteinGram { get; set; } // Białko w gramach
+        public int ProteinGram { get; set; } 
 
         [Required]
-        public int CarbGram { get; set; } // Węglowodany w gramach
+        public int CarbGram { get; set; } 
 
         [Required]
-        public int FatGram { get; set; } // Tłuszcze w gramach
+        public int FatGram { get; set; } 
     }
 }
 

@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using DietCraft.API.Models.Diet;
 
 namespace DietCraft.API.ProfileMappings
 {
@@ -10,6 +9,8 @@ namespace DietCraft.API.ProfileMappings
             CreateMap<Entities.Diet, Models.Diet.DietDto>();
             CreateMap<Models.Diet.DietForCreationDto, Entities.Diet>();
             CreateMap<Models.Diet.DietForUpdateDto, Entities.Diet>();
+
+            CreateMap<Entities.DietType, Models.Diet.DietTypeDto>();
         }
     }
 }

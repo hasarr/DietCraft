@@ -30,7 +30,7 @@ namespace DietCraft.API.Controllers
             _dbSaveService = dbSaveService ?? throw new ArgumentNullException(nameof(dbSaveService));
         }
 
-
+        #region Dietendpoints
         [HttpGet]
         public async Task<ActionResult<IEnumerable<DietDto>>> GetDiets([Required] int pageNumber = 1,[Required] int pageSize = 5)
         {
@@ -116,5 +116,25 @@ namespace DietCraft.API.Controllers
 
             return Conflict($"Something went wrong while deleteing diet with id: {dietId}");
         }
+    #endregion
+
+        [HttpGet("types")]
+        public async Task<ActionResult<IEnumerable<DietDto>>> GetDietTypes([Required] int pageNumber = 1,[Required] int pageSize = 5)
+        {
+            pageSize = pageSize > MaxPageSize ? 5 : pageSize;
+            pageNumber = pageNumber > 0 ? pageNumber : 1;
+
+            var (dietTypes, paginationMetaData) = await _dietRepository.GetDietTypesAsync(pageNumber, pageSize);
+            if (dietTypes == null)
+                return NotFound("No dietTypes found in the database");
+
+            Response.Headers.Append("X-Pagination",
+                JsonConvert.SerializeObject(paginationMetaData));
+
+            return Ok(_mapper.Map<IEnumerable<DietTypeDto>>(dietTypes));
+        }
     }
+
+
+        
 }

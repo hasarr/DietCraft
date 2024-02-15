@@ -11,5 +11,7 @@ namespace DietCraft.API.Services.DietService
         public void AddDiet(Diet diet);
         public void DeleteDiet(Diet diet);
 
+        public Task<(IEnumerable<DietType>, PaginationMetadata)> GetDietTypesAsync(int pageNumber, int pageSize);
+
     }
 }

@@ -1,8 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore;
+using System.Xml.Linq;
 
 namespace DietCraft.API.Entities
 {
+    [Index(nameof(ShoppingListId), nameof(IngredientId), IsUnique = true)]
     public class ShoppingListIngredients
     {
         [Key]
