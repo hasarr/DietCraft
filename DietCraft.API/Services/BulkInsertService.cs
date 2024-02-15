@@ -17,11 +17,11 @@ namespace DietCraft.API.Services
 
             // Wstawianie danych dla DietType
             modelBuilder.Entity<DietType>().HasData(
-                new DietType { Id = 1, Name = "Wege", CarbPercent = 50, ProteinPercent = 25, FatPercent = 25 },
-                new DietType { Id = 2, Name = "Keto", CarbPercent = 10, ProteinPercent = 30, FatPercent = 60 },
-                new DietType { Id = 3, Name = "Balans", CarbPercent = 40, ProteinPercent = 30, FatPercent = 30 },
-                new DietType { Id = 4, Name = "Niskowęglowodanowa", CarbPercent = 20, ProteinPercent = 40, FatPercent = 40 },
-                new DietType { Id = 5, Name = "Białkowa", CarbPercent = 45, ProteinPercent = 20, FatPercent = 35 }
+                new DietType { Id = 1, Name = "Wege", CarbPercent = 50, ProteinPercent = 25, FatPercent = 25, IsCustom = false, UserIdIfCustom = 0 },
+                new DietType { Id = 2, Name = "Keto", CarbPercent = 10, ProteinPercent = 30, FatPercent = 60, IsCustom = false, UserIdIfCustom = 0 },
+                new DietType { Id = 3, Name = "Balans", CarbPercent = 40, ProteinPercent = 30, FatPercent = 30, IsCustom = false, UserIdIfCustom = 0 },
+                new DietType { Id = 4, Name = "Niskowęglowodanowa", CarbPercent = 20, ProteinPercent = 40, FatPercent = 40, IsCustom = false, UserIdIfCustom = 0 },
+                new DietType { Id = 5, Name = "Białkowa", CarbPercent = 45, ProteinPercent = 20, FatPercent = 35, IsCustom = false, UserIdIfCustom = 0 }
             );
 
             // Wstawianie danych dla Ingredient
@@ -43,26 +43,26 @@ namespace DietCraft.API.Services
 
             // Wstawianie danych dla Meal
             modelBuilder.Entity<Meal>().HasData(
-                new Meal { Id = 1, Name = "Jajecznica", IsVegan = false, isCustom = false },
-                new Meal { Id = 2, Name = "Sałatka grecka", IsVegan = true, isCustom = false },
-                new Meal { Id = 3, Name = "Kurczak z ryżem", IsVegan = false, isCustom = true, UserIdIfCustom = 2 }
+                new Meal { Id = 1, Name = "Jajecznica", IsVegan = false, IsCustom = false },
+                new Meal { Id = 2, Name = "Sałatka grecka", IsVegan = true, IsCustom = false },
+                new Meal { Id = 3, Name = "Kurczak z ryżem", IsVegan = false, IsCustom = true, UserIdIfCustom = 2 }
             );
 
             // Wstawianie danych dla IngredientsForMeal
-            modelBuilder.Entity<IngredientsForMeal>().HasData(
+            modelBuilder.Entity<MealIngredients>().HasData(
                 // Dodaj składniki dla każdego posiłku
-                new IngredientsForMeal { Id = 1, MealId = 1, IngredientId = 1, IsOptional = false, Grams = 100, Mililiters = 0, Quantity = 1 },
-                new IngredientsForMeal { Id = 2, MealId = 1, IngredientId = 2, IsOptional = true, Grams = 150, Mililiters = 0, Quantity = 1 },
-                new IngredientsForMeal { Id = 3, MealId = 1, IngredientId = 3, IsOptional = true, Grams = 50, Mililiters = 0, Quantity = 1 },
-                new IngredientsForMeal { Id = 4, MealId = 1, IngredientId = 4, IsOptional = true, Grams = 80, Mililiters = 0, Quantity = 1 },
+                new MealIngredients { Id = 1, MealId = 1, IngredientId = 1, IsOptional = false, Grams = 100, Mililiters = 0, Quantity = 1 },
+                new MealIngredients { Id = 2, MealId = 1, IngredientId = 2, IsOptional = true, Grams = 150, Mililiters = 0, Quantity = 1 },
+                new MealIngredients { Id = 3, MealId = 1, IngredientId = 3, IsOptional = true, Grams = 50, Mililiters = 0, Quantity = 1 },
+                new MealIngredients { Id = 4, MealId = 1, IngredientId = 4, IsOptional = true, Grams = 80, Mililiters = 0, Quantity = 1 },
 
-                new IngredientsForMeal { Id = 5, MealId = 2, IngredientId = 3, IsOptional = false, Grams = 100, Mililiters = 0, Quantity = 1 },
-                new IngredientsForMeal { Id = 6, MealId = 2, IngredientId = 5, IsOptional = false, Grams = 80, Mililiters = 0, Quantity = 1 },
-                new IngredientsForMeal { Id = 7, MealId = 2, IngredientId = 6, IsOptional = false, Grams = 120, Mililiters = 0, Quantity = 1 },
+                new MealIngredients { Id = 5, MealId = 2, IngredientId = 3, IsOptional = false, Grams = 100, Mililiters = 0, Quantity = 1 },
+                new MealIngredients { Id = 6, MealId = 2, IngredientId = 5, IsOptional = false, Grams = 80, Mililiters = 0, Quantity = 1 },
+                new MealIngredients { Id = 7, MealId = 2, IngredientId = 6, IsOptional = false, Grams = 120, Mililiters = 0, Quantity = 1 },
 
-                new IngredientsForMeal { Id = 8, MealId = 3, IngredientId = 4, IsOptional = false, Grams = 150, Mililiters = 0, Quantity = 1 },
-                new IngredientsForMeal { Id = 9, MealId = 3, IngredientId = 8, IsOptional = false, Grams = 100, Mililiters = 0, Quantity = 1 },
-                new IngredientsForMeal { Id = 10, MealId = 3, IngredientId = 9, IsOptional = true, Grams = 80, Mililiters = 0, Quantity = 1 }
+                new MealIngredients { Id = 8, MealId = 3, IngredientId = 4, IsOptional = false, Grams = 150, Mililiters = 0, Quantity = 1 },
+                new MealIngredients { Id = 9, MealId = 3, IngredientId = 8, IsOptional = false, Grams = 100, Mililiters = 0, Quantity = 1 },
+                new MealIngredients { Id = 10, MealId = 3, IngredientId = 9, IsOptional = true, Grams = 80, Mililiters = 0, Quantity = 1 }
             );
 
 
@@ -103,17 +103,17 @@ namespace DietCraft.API.Services
             );
 
             modelBuilder.Entity<Diet>().HasData(
-                new Diet { Id = 1, Name = "Dieta wegańska", DietTypeId = 1, isCustom = false, UserIdIfCustom = 0 },
-                new Diet { Id = 2, Name = "Dieta keto", DietTypeId = 2, isCustom = false, UserIdIfCustom = 0 },
-                new Diet { Id = 3, Name = "Dieta zbalansowana", DietTypeId = 3, isCustom = true, UserIdIfCustom = 1 },
-                new Diet { Id = 4, Name = "Dieta niskowęglowodanowa", DietTypeId = 4, isCustom = true, UserIdIfCustom = 2 },
-                new Diet { Id = 5, Name = "Dieta białkowa", DietTypeId = 5, isCustom = true, UserIdIfCustom = 3 }
+                new Diet { Id = 1, Name = "Dieta wegańska", DietTypeId = 1, IsCustom = false, UserIdIfCustom = 0 },
+                new Diet { Id = 2, Name = "Dieta keto", DietTypeId = 2, IsCustom = false, UserIdIfCustom = 0 },
+                new Diet { Id = 3, Name = "Dieta zbalansowana", DietTypeId = 3, IsCustom = true, UserIdIfCustom = 1 },
+                new Diet { Id = 4, Name = "Dieta niskowęglowodanowa", DietTypeId = 4, IsCustom = true, UserIdIfCustom = 2 },
+                new Diet { Id = 5, Name = "Dieta białkowa", DietTypeId = 5, IsCustom = true, UserIdIfCustom = 3 }
             );
 
             modelBuilder.Entity<Recipe>().HasData(
-                new Recipe { Id = 1, Name = "Przepis 1", DescriptionHTML = "<p>Delicious broccoli salad recipe.</p>", TitleHTML = "<h1>Broccoli Salad</h1>", MealId = 1, isStepByStep = true },
-                new Recipe { Id = 2, Name = "Przepis 2", DescriptionHTML = "<p>Perfectly grilled chicken recipe.</p>", TitleHTML = "<h1>Grilled Chicken</h1>", MealId = 2, isStepByStep = true },
-                new Recipe { Id = 3, Name = "Przepis 3", DescriptionHTML = "<p>Simple and tasty salmon fillet recipe.</p>", TitleHTML = "<h1>Salmon Fillet</h1>", MealId = 3, isStepByStep = true }
+                new Recipe { Id = 1, Name = "Przepis 1", DescriptionHTML = "<p>Delicious broccoli salad recipe.</p>", TitleHTML = "<h1>Broccoli Salad</h1>", MealId = 1, IsStepByStep = true },
+                new Recipe { Id = 2, Name = "Przepis 2", DescriptionHTML = "<p>Perfectly grilled chicken recipe.</p>", TitleHTML = "<h1>Grilled Chicken</h1>", MealId = 2, IsStepByStep = true },
+                new Recipe { Id = 3, Name = "Przepis 3", DescriptionHTML = "<p>Simple and tasty salmon fillet recipe.</p>", TitleHTML = "<h1>Salmon Fillet</h1>", MealId = 3, IsStepByStep = true }
             );
 
             modelBuilder.Entity<UserDiet>().HasData(

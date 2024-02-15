@@ -1,8 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DietCraft.API.Entities
 {
+    [Index(nameof(Name), IsUnique = true)]
     public class Recipe
     {
         [Key]
@@ -24,6 +26,6 @@ namespace DietCraft.API.Entities
         public int MealId {  get; set; }
 
         [Required]
-        public bool isStepByStep { get; set; }
+        public bool IsStepByStep { get; set; }
     }
 }

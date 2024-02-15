@@ -62,5 +62,40 @@ namespace DietCraft.API.Services.DietService
         }
 
         
+        public async Task<(IEnumerable<DietType>, PaginationMetadata)> GetDietTypesAsync(int pageNumber, int pageSize)
+        {
+            var collection = _context.DietTypes as IQueryable<DietType>;
+            var totalItemCount = await collection.CountAsync();
+
+            var paginationMetaData = new PaginationMetadata(totalItemCount, pageSize, pageNumber);
+            var collectionToReturn = await collection
+                .OrderBy(x => x.Id)
+                .Skip(pageSize * (pageNumber - 1))
+                .Take(pageSize)
+                .ToListAsync();
+
+            return (collectionToReturn, paginationMetaData);
+
+        }
+
+        public async Task<DietType?> GetDietTypeByIdAsync(int dietTypeId)
+        {
+            var dietTypeExists = await DietTypeExistsAsync(dietTypeId);
+            if (!dietTypeExists)
+                return null;
+
+            var dietType = await _context.DietTypes.Where(d => d.Id == dietTypeId).FirstOrDefaultAsync();
+            return dietType;
+        }
+
+        public void AddDietType(DietType dietType)
+        {
+            _context.DietTypes.Add(dietType);
+        }
+
+        public void DeleteDietType(DietType dietType)
+        {
+            _context.DietTypes.Remove(dietType);
+        }
     }
 }

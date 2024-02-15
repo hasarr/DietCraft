@@ -2,6 +2,7 @@
 using DietCraft.API.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,9 +10,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DietCraft.API.Migrations
 {
     [DbContext(typeof(DietCraftContext))]
-    partial class DietCraftContextModelSnapshot : ModelSnapshot
+    [Migration("20240215182007_change_MealIngredients_name3")]
+    partial class change_MealIngredients_name3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.2");

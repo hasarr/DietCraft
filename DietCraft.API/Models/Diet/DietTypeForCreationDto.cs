@@ -1,16 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace DietCraft.API.Entities
+namespace DietCraft.API.Models.Diet
 {
-    [Index(nameof(Name), nameof(IsCustom), nameof(UserIdIfCustom), IsUnique = true)]
-    public class DietType
+    public class DietTypeForCreationDto
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
-
         [Required]
         public string? Name { get; set; }
 
@@ -30,6 +23,6 @@ namespace DietCraft.API.Entities
         public bool IsCustom { get; set; }
 
         [Required]
-        public int UserIdIfCustom {  get; set; } = 0;
+        public int UserIdIfCustom { get; set; }
     }
 }

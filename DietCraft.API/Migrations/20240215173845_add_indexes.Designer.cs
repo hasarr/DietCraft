@@ -2,6 +2,7 @@
 using DietCraft.API.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,9 +10,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DietCraft.API.Migrations
 {
     [DbContext(typeof(DietCraftContext))]
-    partial class DietCraftContextModelSnapshot : ModelSnapshot
+    [Migration("20240215173845_add_indexes")]
+    partial class add_indexes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.2");
@@ -340,60 +343,7 @@ namespace DietCraft.API.Migrations
                         });
                 });
 
-            modelBuilder.Entity("DietCraft.API.Entities.Meal", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<bool>("IsCustom")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<bool>("IsVegan")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("UserIdIfCustom")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Name", "IsCustom", "UserIdIfCustom")
-                        .IsUnique();
-
-                    b.ToTable("Meals");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            IsCustom = false,
-                            IsVegan = false,
-                            Name = "Jajecznica",
-                            UserIdIfCustom = 0
-                        },
-                        new
-                        {
-                            Id = 2,
-                            IsCustom = false,
-                            IsVegan = true,
-                            Name = "Sałatka grecka",
-                            UserIdIfCustom = 0
-                        },
-                        new
-                        {
-                            Id = 3,
-                            IsCustom = true,
-                            IsVegan = false,
-                            Name = "Kurczak z ryżem",
-                            UserIdIfCustom = 2
-                        });
-                });
-
-            modelBuilder.Entity("DietCraft.API.Entities.MealIngredients", b =>
+            modelBuilder.Entity("DietCraft.API.Entities.IngredientsForMeal", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -423,7 +373,7 @@ namespace DietCraft.API.Migrations
 
                     b.HasIndex("MealId");
 
-                    b.ToTable("MealIngredients");
+                    b.ToTable("IngredientsForMeals");
 
                     b.HasData(
                         new
@@ -525,6 +475,59 @@ namespace DietCraft.API.Migrations
                             MealId = 3,
                             Mililiters = 0m,
                             Quantity = 1
+                        });
+                });
+
+            modelBuilder.Entity("DietCraft.API.Entities.Meal", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsCustom")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsVegan")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("UserIdIfCustom")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name", "IsCustom", "UserIdIfCustom")
+                        .IsUnique();
+
+                    b.ToTable("Meals");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            IsCustom = false,
+                            IsVegan = false,
+                            Name = "Jajecznica",
+                            UserIdIfCustom = 0
+                        },
+                        new
+                        {
+                            Id = 2,
+                            IsCustom = false,
+                            IsVegan = true,
+                            Name = "Sałatka grecka",
+                            UserIdIfCustom = 0
+                        },
+                        new
+                        {
+                            Id = 3,
+                            IsCustom = true,
+                            IsVegan = false,
+                            Name = "Kurczak z ryżem",
+                            UserIdIfCustom = 2
                         });
                 });
 
@@ -804,7 +807,7 @@ namespace DietCraft.API.Migrations
                             Email = "john@example.com",
                             FirstName = "John",
                             LastName = "Doe",
-                            PasswordHash = "$2a$10$RUvIrvplu8B1ceIr0A1o8ua1qPj0oS1i8n05aIUNpVBkzC7u5IXa.",
+                            PasswordHash = "$2a$10$uIXRD5TlLL27tybi38G3COQ6DFw8H3o3Z3cSoQG0Mwk6HL9Go7vCi",
                             RoleId = (byte)1,
                             UserName = "john_doe"
                         },
@@ -814,7 +817,7 @@ namespace DietCraft.API.Migrations
                             Email = "alice@example.com",
                             FirstName = "Alice",
                             LastName = "Smith",
-                            PasswordHash = "$2a$10$TuS9tsKD8G2z1Ltpbk81hewYRDzf2KQGy9F.Sy3VdU4QjFSTFvWkO",
+                            PasswordHash = "$2a$10$woYf5nd9pQSaxCVk2n0AQuG7HFW0ESyXhfNcWsjeuTEKkbua1jyhO",
                             RoleId = (byte)2,
                             UserName = "alice_smith"
                         },
@@ -824,7 +827,7 @@ namespace DietCraft.API.Migrations
                             Email = "bob@example.com",
                             FirstName = "Bob",
                             LastName = "Johnson",
-                            PasswordHash = "$2a$10$eQqw.6ac1JZI5jfApKf/ouGcLAObJ9/wRHxZvBuUUBbzwSfwi.IZi",
+                            PasswordHash = "$2a$10$.pjgCLwlQrTOBzAZUFwAteff5SXK5m4zLYmK7UGHwd3FcFzY96DcG",
                             RoleId = (byte)3,
                             UserName = "bob_johnson"
                         },
@@ -834,7 +837,7 @@ namespace DietCraft.API.Migrations
                             Email = "emily@example.com",
                             FirstName = "Emily",
                             LastName = "Brown",
-                            PasswordHash = "$2a$10$UQUzdhwdttdVUUIQxJYaK.gf6ccbTdaG.1c.W6tQUOyxSdrnqUOMC",
+                            PasswordHash = "$2a$10$/b0XFrJWw70rCWZkoNp/QedUIqegGB.D2syLECG1T7ECJnYdf9Ale",
                             RoleId = (byte)4,
                             UserName = "emily_brown"
                         },
@@ -844,7 +847,7 @@ namespace DietCraft.API.Migrations
                             Email = "david@example.com",
                             FirstName = "David",
                             LastName = "Wilson",
-                            PasswordHash = "$2a$10$d5MgICIKUlP.lZpjlnJoPuKayO4yJY8BBa/v.Yo6r5uZiGictY7/K",
+                            PasswordHash = "$2a$10$07hF3W8RiZkgFo4ZyLj04.3ML.RNepV1OzKOC2/kfebALO01iOtNG",
                             RoleId = (byte)5,
                             UserName = "david_wilson"
                         });
@@ -923,7 +926,7 @@ namespace DietCraft.API.Migrations
                     b.Navigation("DietType");
                 });
 
-            modelBuilder.Entity("DietCraft.API.Entities.MealIngredients", b =>
+            modelBuilder.Entity("DietCraft.API.Entities.IngredientsForMeal", b =>
                 {
                     b.HasOne("DietCraft.API.Entities.Ingredient", "Ingredient")
                         .WithMany()

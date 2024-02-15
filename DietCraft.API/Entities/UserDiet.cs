@@ -1,8 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DietCraft.API.Entities
 {
+    [Index(nameof(DietId), nameof(UserId), IsUnique = true)]
     public class UserDiet
     {
         [Key]
