@@ -31,7 +31,7 @@ namespace DietCraft.API.Services.DietService
 
         }
 
-        public async Task<Diet> GetDietByIdAsync(int dietId)
+        public async Task<Diet?> GetDietByIdAsync(int dietId)
         {
             var dietExists = await DietExistsAsync(dietId);
             if (!dietExists)
