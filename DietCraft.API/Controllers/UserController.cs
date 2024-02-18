@@ -22,14 +22,14 @@ namespace DietCraft.API.Controllers
 {
     [Route("api/users")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class UserController : ControllerBase
     {
         private readonly IMapper _mapper;
         const int MaxPageSize = 5;
         private IUserRepository _userRepository { get; }
         private DbSaveService _dbSaveService;
 
-        public UsersController(IMapper mapper, IUserRepository userRepository,
+        public UserController(IMapper mapper, IUserRepository userRepository,
             DbSaveService dbSaveService)
         {
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));

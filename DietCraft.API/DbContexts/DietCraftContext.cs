@@ -16,7 +16,7 @@ namespace DietCraft.API.DbContexts
         public DbSet<DietType> DietTypes { get; set; }
         public DbSet<UserDiet> UserDiets { get; set; }
         public DbSet<Ingredient> Ingredients { get; set; }
-        public DbSet<MealIngredients> MealIngredients { get; set; }
+        public DbSet<MealIngredient> MealIngredients { get; set; }
         public DbSet<Meal> Meals { get; set; }
         public DbSet<Recipe> Recipes { get; set; }
         public DbSet<ShoppingList> ShoppingLists { get; set; }

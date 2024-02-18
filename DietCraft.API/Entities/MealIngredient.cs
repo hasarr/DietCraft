@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DietCraft.API.Entities
 {
-    public class MealIngredients
+    public class MealIngredient
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -14,6 +14,7 @@ namespace DietCraft.API.Entities
         [ForeignKey(nameof(IngredientId))]
         public Ingredient Ingredient { get; set; }
 
+        [Required]
         public int IngredientId { get; set; }
 
         [ForeignKey("MealId")]

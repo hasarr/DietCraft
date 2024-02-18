@@ -60,7 +60,7 @@ namespace DietCraft.API.Controllers
         public async Task<ActionResult<DietDto>> AddDiet( [Required] DietForCreationDto diet)
         {
             if(!await _dietRepository.DietTypeExistsAsync(diet.DietTypeId))
-                return BadRequest("DietType with id of: " + diet.DietTypeId + " does not exist");
+                return BadRequest($"DietType with id of: {diet.DietTypeId} does not exist");
 
             if(diet.IsCustom == true && diet.UserIdIfCustom <= 0)
                 return BadRequest("You need to provide valid UserId for custom diet");

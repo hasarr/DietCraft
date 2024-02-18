@@ -112,6 +112,30 @@ namespace DietCraft.API.Controllers
 
             return Conflict($"Something went wrong while deleteing meal with id: {mealId}");
         }
-        #endregion 
+        #endregion
+
+        #region MealIngredientEndpoints
+        [HttpGet("{mealId}/ingredients")]
+        public async Task<ActionResult<IEnumerable<MealIngredientDto>>> GetMealIngredients([Required] int mealId, [Required] int pageNumber = 1,[Required] int pageSize = 5)
+        {
+            bool mealExists = await _mealRepository.MealExistsAsync(mealId);
+            if(!mealExists)
+                return BadRequest($"Meal with an id of {mealId} does not exist");
+
+            pageSize = pageSize > MaxPageSize ? 5 : pageSize;
+            pageNumber = pageNumber > 0 ? pageNumber : 1;
+
+            var (mealIngredients, paginationMetaData) = await _mealRepository.GetIngredientsForMealAsync(mealId, pageNumber, pageSize);
+            if (mealIngredients.Count() == 0)
+                return NotFound($"Ingredients for meal with an id of {mealId} weren't found in the database");
+
+            Response.Headers.Append("X-Pagination",
+                JsonConvert.SerializeObject(paginationMetaData));
+
+            return Ok(_mapper.Map<IEnumerable<MealIngredientDto>>(mealIngredients));
+        }
+
+
+        #endregion
     }
 }

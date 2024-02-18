@@ -1,5 +1,6 @@
 ﻿using DietCraft.API.DbContexts;
 using DietCraft.API.Entities;
+using DietCraft.API.Services.IngredientService;
 using Microsoft.EntityFrameworkCore;
 
 namespace DietCraft.API.Services.MealService
@@ -7,12 +8,12 @@ namespace DietCraft.API.Services.MealService
     public class MealRepository : IMealRepository
     {
         private readonly DietCraftContext _context;
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IIngredientRepository _ingredientRepository;
 
-        public MealRepository(DietCraftContext context, IHttpContextAccessor httpContextAccessor)
+        public MealRepository(DietCraftContext context, IIngredientRepository ingredientRepository)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
-            _httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
+            this._ingredientRepository = ingredientRepository ?? throw new ArgumentNullException(nameof(ingredientRepository));
         }
 
         public void AddMeal(Meal meal)
@@ -20,9 +21,35 @@ namespace DietCraft.API.Services.MealService
             _context.Meals.Add(meal);
         }
 
+        public void AddMealIngredient(MealIngredient mealIngredient)
+        {
+            _context.MealIngredients.Add(mealIngredient);
+        }
+
         public void DeleteMeal(Meal meal)
         {
             _context.Meals.Remove(meal);
+        }
+
+        public void DeleteMealIngredient(MealIngredient mealIngredient)
+        {
+            _context.MealIngredients.Remove(mealIngredient);
+        }
+
+        public async Task<(IEnumerable<MealIngredient>, PaginationMetadata)> GetIngredientsForMealAsync(int mealId, int pageNumber, int pageSize)
+        {
+            var mealExists = await MealExistsAsync(mealId);
+            var collection = _context.MealIngredients.Where(m => m.MealId == mealId);
+            var totalItemCount = await collection.CountAsync();
+
+            var paginationMetaData = new PaginationMetadata(totalItemCount, pageSize, pageNumber);
+            var collectionToReturn = await collection
+                .OrderBy(x => x.Id)
+                .Skip(pageSize * (pageNumber - 1))
+                .Take(pageSize)
+                .ToListAsync();
+
+            return (collectionToReturn, paginationMetaData);
         }
 
         public async Task<Meal?> GetMealByIdAsync(int mealId)

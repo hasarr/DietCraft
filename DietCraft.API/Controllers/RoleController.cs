@@ -12,12 +12,12 @@ namespace DietCraft.API.Controllers
 {
     [Route("api/roles")]
     [ApiController]
-    public class RolesController : ControllerBase
+    public class RoleController : ControllerBase
     {
         private readonly IRoleRepository _roleRepository;
         private readonly IMapper _mapper;
 
-        public RolesController(IRoleRepository roleRepository, IMapper mapper)
+        public RoleController(IRoleRepository roleRepository, IMapper mapper)
         {
             _roleRepository = roleRepository;
             _mapper = mapper;

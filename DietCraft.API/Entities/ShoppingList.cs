@@ -20,8 +20,8 @@ namespace DietCraft.API.Entities
         [Required]
         public User User {  get; set; }
 
-        public ICollection<ShoppingListIngredients> ShoppingListIngredients { get; set;}
-                = new List<ShoppingListIngredients>();
+        public ICollection<ShoppingListIngredient> ShoppingListIngredients { get; set;}
+                = new List<ShoppingListIngredient>();
 
     }
 }

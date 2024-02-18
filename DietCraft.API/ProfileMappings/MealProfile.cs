@@ -9,6 +9,10 @@ namespace DietCraft.API.ProfileMappings
             CreateMap<Entities.Meal, Models.Meal.MealDto>();
             CreateMap<Models.Meal.MealForCreationDto, Entities.Meal>();
             CreateMap<Models.Meal.MealForUpdateDto, Entities.Meal>();
+
+            CreateMap<Entities.MealIngredient, Models.Meal.MealIngredientDto>();
+            CreateMap<Models.Meal.MealIngredientForCreationDto, Entities.MealIngredient>();
+            CreateMap<Models.Meal.MealIngredientForUpdateDto, Entities.MealIngredient>();
         }
     }
 }

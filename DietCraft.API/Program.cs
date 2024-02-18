@@ -7,6 +7,7 @@ using DietCraft.API.Controllers;
 using DietCraft.API.Services.DietService;
 using DietCraft.API.Services.UserService;
 using DietCraft.API.Services.MealService;
+using DietCraft.API.Services.IngredientService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,6 +27,7 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 builder.Services.AddScoped<IDietRepository, DietRepository>();
 builder.Services.AddScoped<IMealRepository, MealRepository>();
+builder.Services.AddScoped<IIngredientRepository, IngredientRepository>();
 builder.Services.AddScoped<DbSaveService>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

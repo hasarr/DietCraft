@@ -6,7 +6,7 @@ using System.Xml.Linq;
 namespace DietCraft.API.Entities
 {
     [Index(nameof(ShoppingListId), nameof(IngredientId), IsUnique = true)]
-    public class ShoppingListIngredients
+    public class ShoppingListIngredient
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
