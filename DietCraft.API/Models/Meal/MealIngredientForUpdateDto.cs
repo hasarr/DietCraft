@@ -7,8 +7,12 @@ namespace DietCraft.API.Models.Meal
         [Required]
         public bool IsOptional {  get; set; }
 
+        [Required]
+        [Range(0, int.MaxValue, ErrorMessage = "Please enter a positive number")]
         public decimal? Grams {  get; set; }
 
+        [Required]
+        [Range(0, int.MaxValue, ErrorMessage = "Please enter a positive number")]
         public decimal? Mililiters { get; set;}
 
         [Required]

@@ -12,7 +12,7 @@ namespace DietCraft.API.Entities
         public byte Id {  get; set; }
 
         [Required]
-        [MaxLength(15)]
+        [MaxLength(50)]
         public string Name { get; set; }
 
     }

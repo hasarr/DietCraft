@@ -33,6 +33,7 @@ namespace DietCraft.API.Entities
         public string PasswordHash { get; set; }
 
         [Required]
+        [Range(0, int.MaxValue, ErrorMessage = "Please enter a positive number")]
         public byte RoleId {  get; set; } = 1;
 
         [Required]

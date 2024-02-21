@@ -15,6 +15,7 @@ namespace DietCraft.API.Entities
         public string Name { get; set; }
 
         [Required]
+        [Range(0, int.MaxValue, ErrorMessage = "Please enter a positive number")]
         public int UserId {  get; set; }
 
         [Required]

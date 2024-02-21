@@ -15,21 +15,26 @@ namespace DietCraft.API.Entities
         public string Name { get; set; }
 
         [Required]
-        public decimal Price { get; set; }
+        [Range(0, double.MaxValue, ErrorMessage = "Please enter a positive number")]
+        public double Price { get; set; }
 
         [Required]
         public bool IsVegan { get; set; }
 
         [Required]
+        [Range(0, int.MaxValue, ErrorMessage = "Please enter a positive number")]
         public int Kcal { get; set; } 
 
         [Required]
+        [Range(0, int.MaxValue, ErrorMessage = "Please enter a positive number")]
         public int ProteinGram { get; set; } 
 
         [Required]
+        [Range(0, int.MaxValue, ErrorMessage = "Please enter a positive number")]
         public int CarbGram { get; set; } 
 
         [Required]
+        [Range(0, int.MaxValue, ErrorMessage = "Please enter a positive number")]
         public int FatGram { get; set; } 
     }
 }

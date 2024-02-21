@@ -9,6 +9,7 @@ using DietCraft.API.Models.Meal;
 using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json;
 using DietCraft.API.Entities;
+using DietCraft.API.Services.IngredientService;
 
 namespace DietCraft.API.Controllers
 {
@@ -18,13 +19,15 @@ namespace DietCraft.API.Controllers
     {
         private IMapper _mapper;
         private IMealRepository _mealRepository;
+        private IIngredientRepository _ingredientRepository;
         private readonly DbSaveService _dbSaveService;
         const int MaxPageSize = 5;
 
-        public MealController(IMapper mapper, IMealRepository mealRepository, DbSaveService dbSaveService)
+        public MealController(IMapper mapper, IMealRepository mealRepository, DbSaveService dbSaveService, IIngredientRepository ingredientRepository)
         {
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _mealRepository = mealRepository ?? throw new ArgumentNullException(nameof(mealRepository));
+            _ingredientRepository = ingredientRepository ?? throw new ArgumentNullException(nameof(ingredientRepository));
             _dbSaveService = dbSaveService ?? throw new ArgumentNullException(nameof(dbSaveService));
         }
 
@@ -135,6 +138,28 @@ namespace DietCraft.API.Controllers
             return Ok(_mapper.Map<IEnumerable<MealIngredientDto>>(mealIngredients));
         }
 
+        [HttpPost("ingredients")]
+        public async Task<ActionResult<DietDto>> AddMealIngredient( [Required] MealIngredientForCreationDto mealIngredient)
+        {
+            if(!await _mealRepository.MealExistsAsync(mealIngredient.MealId))
+                return BadRequest($"Meal with an id of: {mealIngredient.MealId} does not exist");
+
+            if(!await _ingredientRepository.IngredientExistsAsync(mealIngredient.IngredientId))
+                return BadRequest($"Ingredient with an id of: {mealIngredient.IngredientId} does not exist");
+
+            if(mealIngredient.Grams > 0 && mealIngredient.Mililiters > 0)
+                return BadRequest($"Grams cannot be added with mililiters at the same time - one of the parameters must be zero");
+
+            if(mealIngredient.Grams == 0 && mealIngredient.Mililiters == 0)
+                return BadRequest($"Grams and mililiters cannot be both zero");
+
+            var objToReturn = _mapper.Map<MealIngredient>(mealIngredient);
+
+            _mealRepository.AddMealIngredient(objToReturn);
+            await _dbSaveService.SaveChangesAsync();
+
+            return Created();
+        }
 
         #endregion
     }

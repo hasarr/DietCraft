@@ -20,9 +20,12 @@ namespace DietCraft.API.Entities
         [Required]
         public string TitleHTML { get; set; }
 
+        [Required]
         [ForeignKey("MealId")]
         public Meal Meal { get; set; }
 
+        [Required]
+        [Range(0, int.MaxValue, ErrorMessage = "Please enter a positive number")]
         public int MealId {  get; set; }
 
         [Required]

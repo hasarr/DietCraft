@@ -22,6 +22,7 @@ namespace DietCraft.API.Entities
         public bool IsCustom {  get; set; }
 
         [AllowNull]
+        [Range(0, int.MaxValue, ErrorMessage = "Please enter a positive number")]
         public int UserIdIfCustom {  get; set; }
 
     }

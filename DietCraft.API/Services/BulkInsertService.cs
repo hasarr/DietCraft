@@ -24,18 +24,18 @@ namespace DietCraft.API.Services
             );
 
             modelBuilder.Entity<Ingredient>().HasData(
-                new Ingredient { Id = 1, Name = "Jajka", Price = 1.0m, IsVegan = true, Kcal = 155, ProteinGram = 13, CarbGram = 1, FatGram = 11 },
-                new Ingredient { Id = 2, Name = "Szpinak", Price = 2.0m, IsVegan = false, Kcal = 23, ProteinGram = 2, CarbGram = 3, FatGram = 0 },
-                new Ingredient { Id = 3, Name = "Pomidory", Price = 3.0m, IsVegan = true, Kcal = 18, ProteinGram = 1, CarbGram = 4, FatGram = 0 },
-                new Ingredient { Id = 4, Name = "Kurczak", Price = 4.0m, IsVegan = false, Kcal = 239, ProteinGram = 27, CarbGram = 0, FatGram = 14 },
-                new Ingredient { Id = 5, Name = "Oliwa z oliwek", Price = 5.0m, IsVegan = true, Kcal = 884, ProteinGram = 0, CarbGram = 0, FatGram = 100 },
-                new Ingredient { Id = 6, Name = "Brokuły", Price = 6.0m, IsVegan = false, Kcal = 34, ProteinGram = 3, CarbGram = 7, FatGram = 0 },
-                new Ingredient { Id = 7, Name = "Cebula", Price = 7.0m, IsVegan = true, Kcal = 40, ProteinGram = 1, CarbGram = 10, FatGram = 0 },
-                new Ingredient { Id = 8, Name = "Ryż", Price = 8.0m, IsVegan = false, Kcal = 130, ProteinGram = 2, CarbGram = 28, FatGram = 0 },
-                new Ingredient { Id = 9, Name = "Marchewka", Price = 9.0m, IsVegan = true, Kcal = 41, ProteinGram = 1, CarbGram = 10, FatGram = 0 },
-                new Ingredient { Id = 10, Name = "Tuńczyk", Price = 10.0m, IsVegan = false, Kcal = 184, ProteinGram = 25, CarbGram = 0, FatGram = 8 },
-                new Ingredient { Id = 11, Name = "Ogórki", Price = 11.0m, IsVegan = true, Kcal = 15, ProteinGram = 1, CarbGram = 3, FatGram = 0 },
-                new Ingredient { Id = 12, Name = "Ser", Price = 12.0m, IsVegan = false, Kcal = 403, ProteinGram = 25, CarbGram = 1, FatGram = 32 }
+                new Ingredient { Id = 1, Name = "Jajka", Price = 1.0, IsVegan = true, Kcal = 155, ProteinGram = 13, CarbGram = 1, FatGram = 11 },
+                new Ingredient { Id = 2, Name = "Szpinak", Price = 2.0, IsVegan = false, Kcal = 23, ProteinGram = 2, CarbGram = 3, FatGram = 0 },
+                new Ingredient { Id = 3, Name = "Pomidory", Price = 3.0, IsVegan = true, Kcal = 18, ProteinGram = 1, CarbGram = 4, FatGram = 0 },
+                new Ingredient { Id = 4, Name = "Kurczak", Price = 4.0, IsVegan = false, Kcal = 239, ProteinGram = 27, CarbGram = 0, FatGram = 14 },
+                new Ingredient { Id = 5, Name = "Oliwa z oliwek", Price = 5.0, IsVegan = true, Kcal = 884, ProteinGram = 0, CarbGram = 0, FatGram = 100 },
+                new Ingredient { Id = 6, Name = "Brokuły", Price = 6.0, IsVegan = false, Kcal = 34, ProteinGram = 3, CarbGram = 7, FatGram = 0 },
+                new Ingredient { Id = 7, Name = "Cebula", Price = 7.0, IsVegan = true, Kcal = 40, ProteinGram = 1, CarbGram = 10, FatGram = 0 },
+                new Ingredient { Id = 8, Name = "Ryż", Price = 8.0, IsVegan = false, Kcal = 130, ProteinGram = 2, CarbGram = 28, FatGram = 0 },
+                new Ingredient { Id = 9, Name = "Marchewka", Price = 9.0, IsVegan = true, Kcal = 41, ProteinGram = 1, CarbGram = 10, FatGram = 0 },
+                new Ingredient { Id = 10, Name = "Tuńczyk", Price = 10.0, IsVegan = false, Kcal = 184, ProteinGram = 25, CarbGram = 0, FatGram = 8 },
+                new Ingredient { Id = 11, Name = "Ogórki", Price = 11.0, IsVegan = true, Kcal = 15, ProteinGram = 1, CarbGram = 3, FatGram = 0 },
+                new Ingredient { Id = 12, Name = "Ser", Price = 12.0, IsVegan = false, Kcal = 403, ProteinGram = 25, CarbGram = 1, FatGram = 32 }
             );
 
             modelBuilder.Entity<Meal>().HasData(

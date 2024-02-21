@@ -18,12 +18,14 @@ namespace DietCraft.API.Entities
         public Diet Diet {  get; set; }
 
         [Required]
+        [Range(0, int.MaxValue, ErrorMessage = "Please enter a positive number")]
         public int UserId {  get; set; }
 
         [Required]
         public User User {  get; set; }
 
         [Required]
+        [Range(0, int.MaxValue, ErrorMessage = "Please enter a positive number")]
         public int MaxKcal { get; set; }
     }
 }
