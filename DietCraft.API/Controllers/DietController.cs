@@ -52,7 +52,7 @@ namespace DietCraft.API.Controllers
         {
             var diet = await _dietRepository.GetDietByIdAsync(dietId);
             if (diet == null)
-                return NotFound("Diet with given id was not found");
+                return NotFound($"Diet with given id of {dietId} was not found");
             else return Ok(_mapper.Map<DietDto>(diet));
         }
 
@@ -60,10 +60,10 @@ namespace DietCraft.API.Controllers
         public async Task<ActionResult<DietDto>> AddDiet( [Required] DietForCreationDto diet)
         {
             if(!await _dietRepository.DietTypeExistsAsync(diet.DietTypeId))
-                return BadRequest("DietType with id of: " + diet.DietTypeId + " does not exist");
+                return BadRequest($"DietType with id of: {diet.DietTypeId} does not exist");
 
             if(diet.IsCustom == true && diet.UserIdIfCustom <= 0)
-                return BadRequest("You need to provide valid UserId for custom dietType");
+                return BadRequest("You need to provide valid UserId for custom diet");
 
             if(diet.IsCustom == false && diet.UserIdIfCustom > 0)
                 return BadRequest("Can't provide UserId for non-custom diet");
@@ -110,7 +110,7 @@ namespace DietCraft.API.Controllers
         {
             bool dietExists = await _dietRepository.DietExistsAsync(dietId);
             if(!dietExists)
-                return BadRequest($"Diet with id of {dietId} does not exist");
+                return NotFound($"Diet with id of {dietId} does not exist");
 
             var diet = await _dietRepository.GetDietByIdAsync(dietId);
             if (diet != null)
@@ -171,7 +171,7 @@ namespace DietCraft.API.Controllers
         }
 
         [HttpPut("types/{dietTypeId}")]
-        public async Task<ActionResult> UpdateDiet([Required] int dietTypeId, [Required] DietTypeForUpdateDto dietType)
+        public async Task<ActionResult> UpdateDietType([Required] int dietTypeId, [Required] DietTypeForUpdateDto dietType)
         {
             if (!await _dietRepository.DietTypeExistsAsync(dietTypeId))
             {

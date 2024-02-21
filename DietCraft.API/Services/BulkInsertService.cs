@@ -15,7 +15,6 @@ namespace DietCraft.API.Services
             var scope = serviceProvider.CreateScope();
             var _userRepository = scope.ServiceProvider.GetRequiredService<IUserRepository>();
 
-            // Wstawianie danych dla DietType
             modelBuilder.Entity<DietType>().HasData(
                 new DietType { Id = 1, Name = "Wege", CarbPercent = 50, ProteinPercent = 25, FatPercent = 25, IsCustom = false, UserIdIfCustom = 0 },
                 new DietType { Id = 2, Name = "Keto", CarbPercent = 10, ProteinPercent = 30, FatPercent = 60, IsCustom = false, UserIdIfCustom = 0 },
@@ -24,68 +23,59 @@ namespace DietCraft.API.Services
                 new DietType { Id = 5, Name = "Białkowa", CarbPercent = 45, ProteinPercent = 20, FatPercent = 35, IsCustom = false, UserIdIfCustom = 0 }
             );
 
-            // Wstawianie danych dla Ingredient
             modelBuilder.Entity<Ingredient>().HasData(
-                // Dodaj 12 różnych składników
-                new Ingredient { Id = 1, Name = "Jajka", Price = 1.0m, IsVegan = true },
-                new Ingredient { Id = 2, Name = "Szpinak", Price = 2.0m, IsVegan = false },
-                new Ingredient { Id = 3, Name = "Pomidory", Price = 3.0m, IsVegan = true },
-                new Ingredient { Id = 4, Name = "Kurczak", Price = 4.0m, IsVegan = false },
-                new Ingredient { Id = 5, Name = "Oliwa z oliwek", Price = 5.0m, IsVegan = true },
-                new Ingredient { Id = 6, Name = "Brokuły", Price = 6.0m, IsVegan = false },
-                new Ingredient { Id = 7, Name = "Cebula", Price = 7.0m, IsVegan = true },
-                new Ingredient { Id = 8, Name = "Ryż", Price = 8.0m, IsVegan = false },
-                new Ingredient { Id = 9, Name = "Marchewka", Price = 9.0m, IsVegan = true },
-                new Ingredient { Id = 10, Name = "Tuńczyk", Price = 10.0m, IsVegan = false },
-                new Ingredient { Id = 11, Name = "Ogórki", Price = 11.0m, IsVegan = true },
-                new Ingredient { Id = 12, Name = "Ser", Price = 12.0m, IsVegan = false }
+                new Ingredient { Id = 1, Name = "Jajka", Price = 1.0, IsVegan = true, Kcal = 155, ProteinGram = 13, CarbGram = 1, FatGram = 11 },
+                new Ingredient { Id = 2, Name = "Szpinak", Price = 2.0, IsVegan = false, Kcal = 23, ProteinGram = 2, CarbGram = 3, FatGram = 0 },
+                new Ingredient { Id = 3, Name = "Pomidory", Price = 3.0, IsVegan = true, Kcal = 18, ProteinGram = 1, CarbGram = 4, FatGram = 0 },
+                new Ingredient { Id = 4, Name = "Kurczak", Price = 4.0, IsVegan = false, Kcal = 239, ProteinGram = 27, CarbGram = 0, FatGram = 14 },
+                new Ingredient { Id = 5, Name = "Oliwa z oliwek", Price = 5.0, IsVegan = true, Kcal = 884, ProteinGram = 0, CarbGram = 0, FatGram = 100 },
+                new Ingredient { Id = 6, Name = "Brokuły", Price = 6.0, IsVegan = false, Kcal = 34, ProteinGram = 3, CarbGram = 7, FatGram = 0 },
+                new Ingredient { Id = 7, Name = "Cebula", Price = 7.0, IsVegan = true, Kcal = 40, ProteinGram = 1, CarbGram = 10, FatGram = 0 },
+                new Ingredient { Id = 8, Name = "Ryż", Price = 8.0, IsVegan = false, Kcal = 130, ProteinGram = 2, CarbGram = 28, FatGram = 0 },
+                new Ingredient { Id = 9, Name = "Marchewka", Price = 9.0, IsVegan = true, Kcal = 41, ProteinGram = 1, CarbGram = 10, FatGram = 0 },
+                new Ingredient { Id = 10, Name = "Tuńczyk", Price = 10.0, IsVegan = false, Kcal = 184, ProteinGram = 25, CarbGram = 0, FatGram = 8 },
+                new Ingredient { Id = 11, Name = "Ogórki", Price = 11.0, IsVegan = true, Kcal = 15, ProteinGram = 1, CarbGram = 3, FatGram = 0 },
+                new Ingredient { Id = 12, Name = "Ser", Price = 12.0, IsVegan = false, Kcal = 403, ProteinGram = 25, CarbGram = 1, FatGram = 32 }
             );
 
-            // Wstawianie danych dla Meal
             modelBuilder.Entity<Meal>().HasData(
                 new Meal { Id = 1, Name = "Jajecznica", IsVegan = false, IsCustom = false },
                 new Meal { Id = 2, Name = "Sałatka grecka", IsVegan = true, IsCustom = false },
                 new Meal { Id = 3, Name = "Kurczak z ryżem", IsVegan = false, IsCustom = true, UserIdIfCustom = 2 }
             );
 
-            // Wstawianie danych dla IngredientsForMeal
-            modelBuilder.Entity<MealIngredients>().HasData(
-                // Dodaj składniki dla każdego posiłku
-                new MealIngredients { Id = 1, MealId = 1, IngredientId = 1, IsOptional = false, Grams = 100, Mililiters = 0, Quantity = 1 },
-                new MealIngredients { Id = 2, MealId = 1, IngredientId = 2, IsOptional = true, Grams = 150, Mililiters = 0, Quantity = 1 },
-                new MealIngredients { Id = 3, MealId = 1, IngredientId = 3, IsOptional = true, Grams = 50, Mililiters = 0, Quantity = 1 },
-                new MealIngredients { Id = 4, MealId = 1, IngredientId = 4, IsOptional = true, Grams = 80, Mililiters = 0, Quantity = 1 },
+            modelBuilder.Entity<MealIngredient>().HasData(
+                new MealIngredient { Id = 1, MealId = 1, IngredientId = 1, IsOptional = false, Grams = 100, Mililiters = 0, Quantity = 1 },
+                new MealIngredient { Id = 2, MealId = 1, IngredientId = 2, IsOptional = true, Grams = 150, Mililiters = 0, Quantity = 1 },
+                new MealIngredient { Id = 3, MealId = 1, IngredientId = 3, IsOptional = true, Grams = 50, Mililiters = 0, Quantity = 1 },
+                new MealIngredient { Id = 4, MealId = 1, IngredientId = 4, IsOptional = true, Grams = 80, Mililiters = 0, Quantity = 1 },
 
-                new MealIngredients { Id = 5, MealId = 2, IngredientId = 3, IsOptional = false, Grams = 100, Mililiters = 0, Quantity = 1 },
-                new MealIngredients { Id = 6, MealId = 2, IngredientId = 5, IsOptional = false, Grams = 80, Mililiters = 0, Quantity = 1 },
-                new MealIngredients { Id = 7, MealId = 2, IngredientId = 6, IsOptional = false, Grams = 120, Mililiters = 0, Quantity = 1 },
+                new MealIngredient { Id = 5, MealId = 2, IngredientId = 3, IsOptional = false, Grams = 100, Mililiters = 0, Quantity = 1 },
+                new MealIngredient { Id = 6, MealId = 2, IngredientId = 5, IsOptional = false, Grams = 80, Mililiters = 0, Quantity = 1 },
+                new MealIngredient { Id = 7, MealId = 2, IngredientId = 6, IsOptional = false, Grams = 120, Mililiters = 0, Quantity = 1 },
 
-                new MealIngredients { Id = 8, MealId = 3, IngredientId = 4, IsOptional = false, Grams = 150, Mililiters = 0, Quantity = 1 },
-                new MealIngredients { Id = 9, MealId = 3, IngredientId = 8, IsOptional = false, Grams = 100, Mililiters = 0, Quantity = 1 },
-                new MealIngredients { Id = 10, MealId = 3, IngredientId = 9, IsOptional = true, Grams = 80, Mililiters = 0, Quantity = 1 }
+                new MealIngredient { Id = 8, MealId = 3, IngredientId = 4, IsOptional = false, Grams = 150, Mililiters = 0, Quantity = 1 },
+                new MealIngredient { Id = 9, MealId = 3, IngredientId = 8, IsOptional = false, Grams = 100, Mililiters = 0, Quantity = 1 },
+                new MealIngredient { Id = 10, MealId = 3, IngredientId = 9, IsOptional = true, Grams = 80, Mililiters = 0, Quantity = 1 }
             );
 
 
-            // Wstawianie danych dla ShoppingList
             modelBuilder.Entity<ShoppingList>().HasData(
                 new ShoppingList { Id = 1, Name = "Lista zakupów 1", UserId = 1 },
                 new ShoppingList { Id = 2, Name = "Lista zakupów 2", UserId = 2 },
                 new ShoppingList { Id = 3, Name = "Lista zakupów 3", UserId = 3 },
                 new ShoppingList { Id = 4, Name = "Lista zakupów 4", UserId = 4 },
                 new ShoppingList { Id = 5, Name = "Lista zakupów 5", UserId = 5 }
-                // Dodaj więcej list zakupów tutaj...
             );
 
-            // Wstawianie danych dla ShoppingListIngredients
-            modelBuilder.Entity<ShoppingListIngredients>().HasData(
-                new ShoppingListIngredients { Id = 1, ShoppingListId = 1, IngredientId = 1, Quantity = 2 },
-                new ShoppingListIngredients { Id = 2, ShoppingListId = 1, IngredientId = 2, Quantity = 1 },
-                new ShoppingListIngredients { Id = 3, ShoppingListId = 2, IngredientId = 3, Quantity = 3 },
-                new ShoppingListIngredients { Id = 4, ShoppingListId = 3, IngredientId = 4, Quantity = 2 },
-                new ShoppingListIngredients { Id = 5, ShoppingListId = 4, IngredientId = 5, Quantity = 1 }
+            modelBuilder.Entity<ShoppingListIngredient>().HasData(
+                new ShoppingListIngredient { Id = 1, ShoppingListId = 1, IngredientId = 1, Quantity = 2 },
+                new ShoppingListIngredient { Id = 2, ShoppingListId = 1, IngredientId = 2, Quantity = 1 },
+                new ShoppingListIngredient { Id = 3, ShoppingListId = 2, IngredientId = 3, Quantity = 3 },
+                new ShoppingListIngredient { Id = 4, ShoppingListId = 3, IngredientId = 4, Quantity = 2 },
+                new ShoppingListIngredient { Id = 5, ShoppingListId = 4, IngredientId = 5, Quantity = 1 }
             );
 
-            // Wstawianie danych dla innych encji, jeśli wymagane
             modelBuilder.Entity<Role>().HasData(
                 new Role { Id = 1, Name = "Admin" },
                 new Role { Id = 2, Name = "User" },

@@ -37,11 +37,11 @@
         <li class="table"><a href="#Diets">Diets</a></li>
         <li class="table"><a href="#DietTypes">DietTypes</a></li>
         <li class="table"><a href="#Ingredients">Ingredients</a></li>
-        <li class="table"><a href="#IngredientsForMeals">IngredientsForMeals</a></li>
+        <li class="table"><a href="#MealIngredients">MealIngredients</a></li>
         <li class="table"><a href="#Meals">Meals</a></li>
         <li class="table"><a href="#Recipes">Recipes</a></li>
         <li class="table"><a href="#Roles">Roles</a></li>
-        <li class="table"><a href="#ShoppingListIngredients">ShoppingListIngredients</a></li>
+        <li class="table"><a href="#ShoppingListIngredient">ShoppingListIngredient</a></li>
         <li class="table"><a href="#ShoppingLists">ShoppingLists</a></li>
         <li class="table"><a href="#UserDiets">UserDiets</a></li>
         <li class="table"><a href="#Users">Users</a></li>
@@ -61,7 +61,7 @@
         <tbody>
           <tr>
             <td class="type">Database</td>
-            <td class="type">C:\Users\ihasa\Source\Repos\hasarr\DietCraft\DietCraft.API\DietCraft.db</td>
+            <td class="type">C:\Users\ihasa\source\repos\hasarr\DietCraft\DietCraft.API\DietCraft.db</td>
           </tr>
           <tr>
             <td class="type">ServerVersion</td>
@@ -69,11 +69,11 @@
           </tr>
           <tr>
             <td class="type">DatabaseSize</td>
-            <td class="type">112 KB</td>
+            <td class="type">144 KB</td>
           </tr>
           <tr>
             <td class="type">Created</td>
-            <td class="type">12.02.2024 17:54</td>
+            <td class="type">01.02.2024 16:57</td>
           </tr>
         </tbody>
       </table>
@@ -110,7 +110,7 @@
             <td><span class="flag" title="FK_Diets_0_0">⇨ <a href="#DietTypes">DietTypes</a>.Id</span></td>
           </tr>
           <tr>
-            <th>isCustom</th>
+            <th>IsCustom</th>
             <td class="type">bigint</td>
             <td class="null">☐</td>
             <td>
@@ -172,6 +172,18 @@
             <td>
             </td>
           </tr>
+          <tr>
+            <th>IsCustom</th>
+            <td class="type">bigint</td>
+            <td class="null">☐</td>
+            <td><span class="flag">DEFAULT 0</span></td>
+          </tr>
+          <tr>
+            <th>UserIdIfCustom</th>
+            <td class="type">bigint</td>
+            <td class="null">☐</td>
+            <td><span class="flag">DEFAULT 0</span></td>
+          </tr>
         </tbody>
       </table>
     </div>
@@ -194,15 +206,15 @@
             <td><span class="flag">IDENTITY (1,1)</span></td>
           </tr>
           <tr>
-            <th>Name</th>
-            <td class="type">text</td>
+            <th>CarbGram</th>
+            <td class="type">bigint</td>
             <td class="null">☐</td>
             <td>
             </td>
           </tr>
           <tr>
-            <th>Price</th>
-            <td class="type">text</td>
+            <th>FatGram</th>
+            <td class="type">bigint</td>
             <td class="null">☐</td>
             <td>
             </td>
@@ -222,21 +234,21 @@
             </td>
           </tr>
           <tr>
+            <th>Name</th>
+            <td class="type">text</td>
+            <td class="null">☐</td>
+            <td>
+            </td>
+          </tr>
+          <tr>
+            <th>Price</th>
+            <td class="type">real (53, 0)</td>
+            <td class="null">☐</td>
+            <td>
+            </td>
+          </tr>
+          <tr>
             <th>ProteinGram</th>
-            <td class="type">bigint</td>
-            <td class="null">☐</td>
-            <td>
-            </td>
-          </tr>
-          <tr>
-            <th>CarbGram</th>
-            <td class="type">bigint</td>
-            <td class="null">☐</td>
-            <td>
-            </td>
-          </tr>
-          <tr>
-            <th>FatGram</th>
             <td class="type">bigint</td>
             <td class="null">☐</td>
             <td>
@@ -246,7 +258,7 @@
       </table>
     </div>
     <div class="table">
-      <h2 id="IngredientsForMeals"><a href="#toc" class="tocref">⇧</a>Table IngredientsForMeals</h2>
+      <h2 id="MealIngredients"><a href="#toc" class="tocref">⇧</a>Table MealIngredients</h2>
       <table>
         <thead>
           <tr>
@@ -258,22 +270,23 @@
         </thead>
         <tbody>
           <tr>
-            <th><span class="pk" title="PRIMARY KEY sqlite_master_PK_IngredientsForMeals">◆</span>Id</th>
+            <th><span class="pk" title="PRIMARY KEY sqlite_master_PK_MealIngredients">◆</span>Id</th>
             <td class="type">bigint</td>
             <td class="null">☐</td>
             <td><span class="flag">IDENTITY (1,1)</span></td>
           </tr>
           <tr>
+            <th>Grams</th>
+            <td class="type">text</td>
+            <td class="null">☐</td>
+            <td>
+            </td>
+          </tr>
+          <tr>
             <th>IngredientId</th>
             <td class="type">bigint</td>
             <td class="null">☐</td>
-            <td><span class="flag" title="FK_IngredientsForMeals_1_0">⇨ <a href="#Ingredients">Ingredients</a>.Id</span></td>
-          </tr>
-          <tr>
-            <th>MealId</th>
-            <td class="type">bigint</td>
-            <td class="null">☐</td>
-            <td><span class="flag" title="FK_IngredientsForMeals_0_0">⇨ <a href="#Meals">Meals</a>.Id</span></td>
+            <td><span class="flag" title="FK_MealIngredients_1_0">⇨ <a href="#Ingredients">Ingredients</a>.Id</span></td>
           </tr>
           <tr>
             <th>IsOptional</th>
@@ -283,11 +296,10 @@
             </td>
           </tr>
           <tr>
-            <th>Grams</th>
-            <td class="type">text</td>
+            <th>MealId</th>
+            <td class="type">bigint</td>
             <td class="null">☐</td>
-            <td>
-            </td>
+            <td><span class="flag" title="FK_MealIngredients_0_0">⇨ <a href="#Meals">Meals</a>.Id</span></td>
           </tr>
           <tr>
             <th>Mililiters</th>
@@ -345,6 +357,12 @@
             <td>
             </td>
           </tr>
+          <tr>
+            <th>IsCustom</th>
+            <td class="type">bigint</td>
+            <td class="null">☐</td>
+            <td><span class="flag">DEFAULT 0</span></td>
+          </tr>
         </tbody>
       </table>
     </div>
@@ -394,7 +412,7 @@
             <td><span class="flag" title="FK_Recipes_0_0">⇨ <a href="#Meals">Meals</a>.Id</span></td>
           </tr>
           <tr>
-            <th>isStepByStep</th>
+            <th>IsStepByStep</th>
             <td class="type">bigint</td>
             <td class="null">☐</td>
             <td>
@@ -432,7 +450,7 @@
       </table>
     </div>
     <div class="table">
-      <h2 id="ShoppingListIngredients"><a href="#toc" class="tocref">⇧</a>Table ShoppingListIngredients</h2>
+      <h2 id="ShoppingListIngredient"><a href="#toc" class="tocref">⇧</a>Table ShoppingListIngredient</h2>
       <table>
         <thead>
           <tr>
@@ -444,7 +462,7 @@
         </thead>
         <tbody>
           <tr>
-            <th><span class="pk" title="PRIMARY KEY sqlite_master_PK_ShoppingListIngredients">◆</span>Id</th>
+            <th><span class="pk" title="PRIMARY KEY sqlite_master_PK_ShoppingListIngredient">◆</span>Id</th>
             <td class="type">bigint</td>
             <td class="null">☐</td>
             <td><span class="flag">IDENTITY (1,1)</span></td>
@@ -453,13 +471,13 @@
             <th>ShoppingListId</th>
             <td class="type">bigint</td>
             <td class="null">☐</td>
-            <td><span class="flag" title="FK_ShoppingListIngredients_0_0">⇨ <a href="#ShoppingLists">ShoppingLists</a>.Id</span></td>
+            <td><span class="flag" title="FK_ShoppingListIngredient_0_0">⇨ <a href="#ShoppingLists">ShoppingLists</a>.Id</span></td>
           </tr>
           <tr>
             <th>IngredientId</th>
             <td class="type">bigint</td>
             <td class="null">☐</td>
-            <td><span class="flag" title="FK_ShoppingListIngredients_1_0">⇨ <a href="#Ingredients">Ingredients</a>.Id</span></td>
+            <td><span class="flag" title="FK_ShoppingListIngredient_1_0">⇨ <a href="#Ingredients">Ingredients</a>.Id</span></td>
           </tr>
           <tr>
             <th>Quantity</th>
@@ -609,6 +627,6 @@
     </div>
     <div class="footer">
                     Generated by <a href="http://SqlDbDoc.codeplex.com/">DB&gt;doc</a> and <a href="https://github.com/ErikEJ/SqlCeToolbox">SQLite/SQL Server Compact Toolbox</a> on
-                    February 12, 2024, 17:32:26</div>
+                    February 21, 2024, 19:54:59</div>
   </body>
 </html>

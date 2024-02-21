@@ -6,13 +6,15 @@ using System.Xml.Linq;
 namespace DietCraft.API.Entities
 {
     [Index(nameof(ShoppingListId), nameof(IngredientId), IsUnique = true)]
-    public class ShoppingListIngredients
+    public class ShoppingListIngredient
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id {  get; set; }
         public int ShoppingListId { get; set; }
-    
+
+        [Required]
+        [Range(0, int.MaxValue, ErrorMessage = "Please enter a positive number")]
         public int IngredientId { get; set; }
 
         [ForeignKey("ShoppingListId")]
@@ -21,6 +23,8 @@ namespace DietCraft.API.Entities
         [ForeignKey("IngredientId")]
         public Ingredient Ingredient { get; set; }
 
+        [Required]
+        [Range(0, int.MaxValue, ErrorMessage = "Please enter a positive number")]
         public int Quantity { get; set; }
     }
 }

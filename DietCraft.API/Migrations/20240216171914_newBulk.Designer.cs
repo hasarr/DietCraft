@@ -2,6 +2,7 @@
 using DietCraft.API.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,9 +10,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DietCraft.API.Migrations
 {
     [DbContext(typeof(DietCraftContext))]
-    partial class DietCraftContextModelSnapshot : ModelSnapshot
+    [Migration("20240216171914_newBulk")]
+    partial class newBulk
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.2");
@@ -195,8 +198,8 @@ namespace DietCraft.API.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<double>("Price")
-                        .HasColumnType("REAL");
+                    b.Property<decimal>("Price")
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("ProteinGram")
                         .HasColumnType("INTEGER");
@@ -214,7 +217,7 @@ namespace DietCraft.API.Migrations
                             IsVegan = true,
                             Kcal = 155,
                             Name = "Jajka",
-                            Price = 1.0,
+                            Price = 1.0m,
                             ProteinGram = 13
                         },
                         new
@@ -225,7 +228,7 @@ namespace DietCraft.API.Migrations
                             IsVegan = false,
                             Kcal = 23,
                             Name = "Szpinak",
-                            Price = 2.0,
+                            Price = 2.0m,
                             ProteinGram = 2
                         },
                         new
@@ -236,7 +239,7 @@ namespace DietCraft.API.Migrations
                             IsVegan = true,
                             Kcal = 18,
                             Name = "Pomidory",
-                            Price = 3.0,
+                            Price = 3.0m,
                             ProteinGram = 1
                         },
                         new
@@ -247,7 +250,7 @@ namespace DietCraft.API.Migrations
                             IsVegan = false,
                             Kcal = 239,
                             Name = "Kurczak",
-                            Price = 4.0,
+                            Price = 4.0m,
                             ProteinGram = 27
                         },
                         new
@@ -258,7 +261,7 @@ namespace DietCraft.API.Migrations
                             IsVegan = true,
                             Kcal = 884,
                             Name = "Oliwa z oliwek",
-                            Price = 5.0,
+                            Price = 5.0m,
                             ProteinGram = 0
                         },
                         new
@@ -269,7 +272,7 @@ namespace DietCraft.API.Migrations
                             IsVegan = false,
                             Kcal = 34,
                             Name = "Brokuły",
-                            Price = 6.0,
+                            Price = 6.0m,
                             ProteinGram = 3
                         },
                         new
@@ -280,7 +283,7 @@ namespace DietCraft.API.Migrations
                             IsVegan = true,
                             Kcal = 40,
                             Name = "Cebula",
-                            Price = 7.0,
+                            Price = 7.0m,
                             ProteinGram = 1
                         },
                         new
@@ -291,7 +294,7 @@ namespace DietCraft.API.Migrations
                             IsVegan = false,
                             Kcal = 130,
                             Name = "Ryż",
-                            Price = 8.0,
+                            Price = 8.0m,
                             ProteinGram = 2
                         },
                         new
@@ -302,7 +305,7 @@ namespace DietCraft.API.Migrations
                             IsVegan = true,
                             Kcal = 41,
                             Name = "Marchewka",
-                            Price = 9.0,
+                            Price = 9.0m,
                             ProteinGram = 1
                         },
                         new
@@ -313,7 +316,7 @@ namespace DietCraft.API.Migrations
                             IsVegan = false,
                             Kcal = 184,
                             Name = "Tuńczyk",
-                            Price = 10.0,
+                            Price = 10.0m,
                             ProteinGram = 25
                         },
                         new
@@ -324,7 +327,7 @@ namespace DietCraft.API.Migrations
                             IsVegan = true,
                             Kcal = 15,
                             Name = "Ogórki",
-                            Price = 11.0,
+                            Price = 11.0m,
                             ProteinGram = 1
                         },
                         new
@@ -335,7 +338,7 @@ namespace DietCraft.API.Migrations
                             IsVegan = false,
                             Kcal = 403,
                             Name = "Ser",
-                            Price = 12.0,
+                            Price = 12.0m,
                             ProteinGram = 25
                         });
                 });
@@ -393,7 +396,7 @@ namespace DietCraft.API.Migrations
                         });
                 });
 
-            modelBuilder.Entity("DietCraft.API.Entities.MealIngredient", b =>
+            modelBuilder.Entity("DietCraft.API.Entities.MealIngredients", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -419,10 +422,9 @@ namespace DietCraft.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MealId");
+                    b.HasIndex("IngredientId");
 
-                    b.HasIndex("IngredientId", "MealId")
-                        .IsUnique();
+                    b.HasIndex("MealId");
 
                     b.ToTable("MealIngredients");
 
@@ -600,7 +602,7 @@ namespace DietCraft.API.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(50)
+                        .HasMaxLength(15)
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -693,7 +695,7 @@ namespace DietCraft.API.Migrations
                         });
                 });
 
-            modelBuilder.Entity("DietCraft.API.Entities.ShoppingListIngredient", b =>
+            modelBuilder.Entity("DietCraft.API.Entities.ShoppingListIngredients", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -715,7 +717,7 @@ namespace DietCraft.API.Migrations
                     b.HasIndex("ShoppingListId", "IngredientId")
                         .IsUnique();
 
-                    b.ToTable("ShoppingListIngredient");
+                    b.ToTable("ShoppingListIngredients");
 
                     b.HasData(
                         new
@@ -805,7 +807,7 @@ namespace DietCraft.API.Migrations
                             Email = "john@example.com",
                             FirstName = "John",
                             LastName = "Doe",
-                            PasswordHash = "$2a$10$vhOzWKOnIpwK7mpdGT9YoefPhjLXlWOhKek515SivvdPrmyRur7pG",
+                            PasswordHash = "$2a$10$kB/23bpMbDbLl6yTWfh.yOXNidPUY2S.oq2DkZf3CNr3t7Yx8ayBO",
                             RoleId = (byte)1,
                             UserName = "john_doe"
                         },
@@ -815,7 +817,7 @@ namespace DietCraft.API.Migrations
                             Email = "alice@example.com",
                             FirstName = "Alice",
                             LastName = "Smith",
-                            PasswordHash = "$2a$10$fqEAOFe99iKmpOPl5H0aEef8Xik6er43lPCsEUBjRoey2kEkniCx6",
+                            PasswordHash = "$2a$10$99XX0KptARzKb2uAoqoiiuHAAf2lrf/EHoUf2wk8ST0ACg4MGqEV2",
                             RoleId = (byte)2,
                             UserName = "alice_smith"
                         },
@@ -825,7 +827,7 @@ namespace DietCraft.API.Migrations
                             Email = "bob@example.com",
                             FirstName = "Bob",
                             LastName = "Johnson",
-                            PasswordHash = "$2a$10$HPiOC/I8bxURtBVYyd3r6.vM4e9KrX4jPT3nUV6GS64tSHdOhWZoG",
+                            PasswordHash = "$2a$10$bLg1QeDatp4i4xzlBgdNwOHi/CFvp4rbt54zx2hrqq20qB0Kx/anC",
                             RoleId = (byte)3,
                             UserName = "bob_johnson"
                         },
@@ -835,7 +837,7 @@ namespace DietCraft.API.Migrations
                             Email = "emily@example.com",
                             FirstName = "Emily",
                             LastName = "Brown",
-                            PasswordHash = "$2a$10$i.kxcHERFqaIqNJT7/HYOu8r8Qnx0FNg/ax0OOEgsw5s/cyJ2HU2e",
+                            PasswordHash = "$2a$10$ILqLv0pqCNBKkK8dozZWVuoMxeiiBguyab4zqpUwJAKzBLv.X1KnK",
                             RoleId = (byte)4,
                             UserName = "emily_brown"
                         },
@@ -845,7 +847,7 @@ namespace DietCraft.API.Migrations
                             Email = "david@example.com",
                             FirstName = "David",
                             LastName = "Wilson",
-                            PasswordHash = "$2a$10$YPMts6V0oiFu5kxynu.3yeDkW3bhZKzyszBEDC/LYZTrzqHKFEr.q",
+                            PasswordHash = "$2a$10$1RJKPyqiXfFN2hMIu5Tr9OAda7oLekjfJ7c8E4l2HfljBY4beQtam",
                             RoleId = (byte)5,
                             UserName = "david_wilson"
                         });
@@ -924,7 +926,7 @@ namespace DietCraft.API.Migrations
                     b.Navigation("DietType");
                 });
 
-            modelBuilder.Entity("DietCraft.API.Entities.MealIngredient", b =>
+            modelBuilder.Entity("DietCraft.API.Entities.MealIngredients", b =>
                 {
                     b.HasOne("DietCraft.API.Entities.Ingredient", "Ingredient")
                         .WithMany()
@@ -965,7 +967,7 @@ namespace DietCraft.API.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("DietCraft.API.Entities.ShoppingListIngredient", b =>
+            modelBuilder.Entity("DietCraft.API.Entities.ShoppingListIngredients", b =>
                 {
                     b.HasOne("DietCraft.API.Entities.Ingredient", "Ingredient")
                         .WithMany()

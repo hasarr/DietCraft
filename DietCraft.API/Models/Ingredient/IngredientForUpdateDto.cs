@@ -1,42 +1,39 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Diagnostics.CodeAnalysis;
 
-namespace DietCraft.API.Entities
+namespace DietCraft.API.Models.Ingredient
 {
-    public class Ingredient
+    public class IngredientForUpdateDto
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
-
         [Required]
         public string Name { get; set; }
 
         [Required]
-        [Range(0, double.MaxValue, ErrorMessage = "Please enter a positive number")]
-        public double Price { get; set; }
+        [Range(0, int.MaxValue, ErrorMessage = "Please enter a positive number")]
+        [DefaultValue(0)]
+        public decimal Price { get; set; }
 
         [Required]
         public bool IsVegan { get; set; }
 
         [Required]
         [Range(0, int.MaxValue, ErrorMessage = "Please enter a positive number")]
+        [DefaultValue(0)]
         public int Kcal { get; set; } 
 
         [Required]
         [Range(0, int.MaxValue, ErrorMessage = "Please enter a positive number")]
+        [DefaultValue(0)]
         public int ProteinGram { get; set; } 
 
         [Required]
         [Range(0, int.MaxValue, ErrorMessage = "Please enter a positive number")]
+        [DefaultValue(0)]
         public int CarbGram { get; set; } 
 
         [Required]
         [Range(0, int.MaxValue, ErrorMessage = "Please enter a positive number")]
+        [DefaultValue(0)]
         public int FatGram { get; set; } 
     }
 }
-
-

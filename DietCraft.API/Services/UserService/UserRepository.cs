@@ -68,7 +68,7 @@ namespace DietCraft.API.Services.UserService
 
         public async Task<bool> UserExistsAsync(string userName)
         {
-            return await _context.Users.AnyAsync(c => c.UserName == userName);
+            return await _context.Users.AnyAsync(c => c.UserName.ToLower() == userName.ToLower());
         }
 
         public void AddUser(User user)
@@ -118,8 +118,6 @@ namespace DietCraft.API.Services.UserService
                 return null;
 
             var user = await GetUserByNameAsync(usernameClaim.Value);
-
-            if (user == null) return null;
             return user;
         }
 

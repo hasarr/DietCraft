@@ -7,12 +7,10 @@ namespace DietCraft.API.Services.DietService
     public class DietRepository : IDietRepository
     {
         private readonly DietCraftContext _context;
-        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public DietRepository(DietCraftContext context, IHttpContextAccessor httpContextAccessor)
+        public DietRepository(DietCraftContext context)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
-            _httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
         }
 
         public async Task<(IEnumerable<Diet>, PaginationMetadata)> GetDietsAsync(int pageNumber, int pageSize)
@@ -31,7 +29,7 @@ namespace DietCraft.API.Services.DietService
 
         }
 
-        public async Task<Diet> GetDietByIdAsync(int dietId)
+        public async Task<Diet?> GetDietByIdAsync(int dietId)
         {
             var dietExists = await DietExistsAsync(dietId);
             if (!dietExists)
