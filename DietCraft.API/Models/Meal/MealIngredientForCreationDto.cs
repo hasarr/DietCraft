@@ -19,14 +19,14 @@ namespace DietCraft.API.Models.Meal
         public bool IsOptional {  get; set; }
 
         [Required]
-        [Range(0, int.MaxValue, ErrorMessage = "Please enter a positive number")]
+        [Range(0, double.MaxValue, ErrorMessage = "Please enter a positive number")]
         [DefaultValue(0)]
-        public decimal? Grams {  get; set; }
+        public double Grams {  get; set; }
 
         [Required]
-        [Range(0, int.MaxValue, ErrorMessage = "Please enter a positive number")]
+        [Range(0, double.MaxValue, ErrorMessage = "Please enter a positive number")]
         [DefaultValue(0)]
-        public decimal? Mililiters { get; set;}
+        public double Mililiters { get; set;}
 
         [Required]
         [Range(0, int.MaxValue, ErrorMessage = "Please enter a positive number")]

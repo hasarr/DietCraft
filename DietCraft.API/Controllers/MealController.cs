@@ -128,7 +128,7 @@ namespace DietCraft.API.Controllers
             pageSize = pageSize > MaxPageSize ? 5 : pageSize;
             pageNumber = pageNumber > 0 ? pageNumber : 1;
 
-            var (mealIngredients, paginationMetaData) = await _mealRepository.GetIngredientsForMealAsync(mealId, pageNumber, pageSize);
+            var (mealIngredients, paginationMetaData) = await _mealRepository.GetMealIngredientsAsync(mealId, pageNumber, pageSize);
             if (mealIngredients.Count() == 0)
                 return NotFound($"Ingredients for meal with an id of {mealId} weren't found in the database");
 
@@ -147,15 +147,13 @@ namespace DietCraft.API.Controllers
             if(!await _ingredientRepository.IngredientExistsAsync(mealIngredient.IngredientId))
                 return BadRequest($"Ingredient with an id of: {mealIngredient.IngredientId} does not exist");
 
-            if(await _mealRepository.IngredientForMealExistsAsync(mealIngredient.MealId, mealIngredient.IngredientId) )
-                return BadRequest($"Ingredient with an id of {mealIngredient.IngredientId} already exists for a meal with an id of: {mealIngredient.MealId}");
+            if(await _mealRepository.MealIngredientExistsAsync(mealIngredient.MealId,mealIngredient.IngredientId))
+                return NotFound($"Meal Ingredient already exists");
 
-            if(mealIngredient.Grams > 0 && mealIngredient.Mililiters > 0)
-                return BadRequest($"Grams cannot be added with mililiters at the same time - one of the parameters must be zero");
-
-            if(mealIngredient.Grams == 0 && mealIngredient.Mililiters == 0)
-                return BadRequest($"Grams and mililiters cannot be both zero");
-
+            var (isValidData,validatorMessage) = _mealRepository.VerifyGramMililiters(mealIngredient.Grams, mealIngredient.Mililiters);
+            if(!isValidData) 
+                return BadRequest(validatorMessage);
+            
             var objToReturn = _mapper.Map<MealIngredient>(mealIngredient);
 
             _mealRepository.AddMealIngredient(objToReturn);
@@ -168,17 +166,20 @@ namespace DietCraft.API.Controllers
         public async Task<ActionResult> UpdateDiet([Required] int mealId, [Required] int ingredientId
             , [Required] MealIngredientForUpdateDto mealIngredient)
         {
-            if (!await _mealRepository.MealExistsAsync(mealId))
-            {
-                return NotFound($"Meal with an id of {mealId} does not exist");
-            }
+            if(!await _mealRepository.MealExistsAsync(mealId))
+                return BadRequest($"Meal with an id of: {mealId} does not exist");
 
-            if (!await _ingredientRepository.IngredientExistsAsync(ingredientId))
-            {
-                return BadRequest($"Ingredient with an id of {ingredientId} does not exist");
-            }
+            if(!await _ingredientRepository.IngredientExistsAsync(ingredientId))
+                return BadRequest($"Ingredient with an id of: {ingredientId} does not exist");
 
-            var mealIngredientEntity = await _mealRepository.GetIngredientForMealAsync(mealId, ingredientId);
+            if(!await _mealRepository.MealIngredientExistsAsync(mealId,ingredientId))
+                return NotFound($"Meal Ingredient was not found");
+
+            var (isValidData,validatorMessage) = _mealRepository.VerifyGramMililiters(mealIngredient.Grams, mealIngredient.Mililiters);
+            if(!isValidData) 
+                return BadRequest(validatorMessage);
+
+            var mealIngredientEntity = await _mealRepository.GetMealIngredientAsync(mealId, ingredientId);
 
             if (mealIngredientEntity == null)
             {
@@ -193,6 +194,24 @@ namespace DietCraft.API.Controllers
             return NoContent();
         }
 
+        [HttpDelete("{mealId}/ingredients/{ingredientId}")]
+        public async Task<ActionResult> DeleteMealIngredient(int mealId, int ingredientId)
+        {
+            if(!await _mealRepository.MealIngredientExistsAsync(mealId,ingredientId))
+                return NotFound($"Meal Ingredient was not found");
+
+            var mealIngredient = await _mealRepository.GetMealIngredientAsync(mealId, ingredientId);
+            if (mealIngredient != null)
+            {
+                _mealRepository.DeleteMealIngredient(mealIngredient);
+                await _dbSaveService.SaveChangesAsync();
+                return Ok();
+            }
+
+            return Conflict($"Something went wrong while deleting mealIngredient");
+        }
         #endregion
+
+        
     }
 }

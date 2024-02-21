@@ -32,12 +32,12 @@ namespace DietCraft.API.Entities
         public bool IsOptional {  get; set; }
 
         [AllowNull]
-        [Range(0, int.MaxValue, ErrorMessage = "Please enter a positive number")]
-        public decimal Grams {  get; set; }
+        [Range(0, double.MaxValue, ErrorMessage = "Please enter a positive number")]
+        public double Grams {  get; set; }
 
         [AllowNull]
-        [Range(0, int.MaxValue, ErrorMessage = "Please enter a positive number")]
-        public decimal Mililiters { get; set;}
+        [Range(0, double.MaxValue, ErrorMessage = "Please enter a positive number")]
+        public double Mililiters { get; set;}
 
         [Required]
         public int Quantity { get; set;}

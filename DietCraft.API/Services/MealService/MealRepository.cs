@@ -36,7 +36,7 @@ namespace DietCraft.API.Services.MealService
             _context.MealIngredients.Remove(mealIngredient);
         }
 
-        public async Task<MealIngredient?> GetIngredientForMealAsync(int mealId, int ingredientId)
+        public async Task<MealIngredient?> GetMealIngredientAsync(int mealId, int ingredientId)
         {
             var mealExists = await MealExistsAsync(mealId);
             var ingredientExists = await _context.Ingredients.AnyAsync(i => i.Id == ingredientId);
@@ -48,7 +48,7 @@ namespace DietCraft.API.Services.MealService
             return mealIngredient;
         }
 
-        public async Task<(IEnumerable<MealIngredient>, PaginationMetadata)> GetIngredientsForMealAsync(int mealId, int pageNumber, int pageSize)
+        public async Task<(IEnumerable<MealIngredient>, PaginationMetadata)> GetMealIngredientsAsync(int mealId, int pageNumber, int pageSize)
         {
             var mealExists = await MealExistsAsync(mealId);
             var collection = _context.MealIngredients.Where(m => m.MealId == mealId);
@@ -89,7 +89,7 @@ namespace DietCraft.API.Services.MealService
             return (collectionToReturn, paginationMetaData);
         }
 
-        public async Task<bool> IngredientForMealExistsAsync(int mealId, int ingredientId)
+        public async Task<bool> MealIngredientExistsAsync(int mealId, int ingredientId)
         {
             return await _context.MealIngredients.AnyAsync(m => m.MealId == mealId && m.IngredientId == ingredientId);
         }
@@ -97,6 +97,17 @@ namespace DietCraft.API.Services.MealService
         public async Task<bool> MealExistsAsync(int mealId)
         {
             return await _context.Meals.AnyAsync(m => m.Id == mealId);
+        }
+
+        public (bool,string) VerifyGramMililiters(double grams, double mililiters)
+        {
+                if (grams > 0 && mililiters > 0)
+                    return (false, "Grams and mililiters can't be inserted at the same time (one of them must be equal to 0)");
+
+                if (grams == 0 && mililiters == 0)
+                    return (false, "Grams and mililiters weren't filled");
+
+            return (true,"");
         }
     }
 }

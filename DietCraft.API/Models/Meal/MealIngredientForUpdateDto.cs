@@ -11,12 +11,12 @@ namespace DietCraft.API.Models.Meal
         [Required]
         [Range(0, int.MaxValue, ErrorMessage = "Please enter a positive number")]
         [DefaultValue(0)]
-        public decimal? Grams {  get; set; } = 0;
+        public double Grams {  get; set; } = 0;
 
         [Required]
         [Range(0, int.MaxValue, ErrorMessage = "Please enter a positive number")]
         [DefaultValue(0)]
-        public decimal? Mililiters { get; set;} = 0;
+        public double Mililiters { get; set;} = 0;
 
         [Required]
         public int Quantity { get; set;}

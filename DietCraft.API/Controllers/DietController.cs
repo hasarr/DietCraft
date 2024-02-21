@@ -110,7 +110,7 @@ namespace DietCraft.API.Controllers
         {
             bool dietExists = await _dietRepository.DietExistsAsync(dietId);
             if(!dietExists)
-                return BadRequest($"Diet with id of {dietId} does not exist");
+                return NotFound($"Diet with id of {dietId} does not exist");
 
             var diet = await _dietRepository.GetDietByIdAsync(dietId);
             if (diet != null)

@@ -10,10 +10,11 @@ namespace DietCraft.API.Services.MealService
         public void AddMeal(Meal meal);
         public void DeleteMeal(Meal meal);
 
-        public Task<(IEnumerable<MealIngredient>, PaginationMetadata)> GetIngredientsForMealAsync(int mealId, int pageNumber, int pageSize);
-        public Task<MealIngredient?> GetIngredientForMealAsync(int mealId, int ingredientId);
-        public Task<bool> IngredientForMealExistsAsync(int mealId, int ingredientId);
+        public Task<(IEnumerable<MealIngredient>, PaginationMetadata)> GetMealIngredientsAsync(int mealId, int pageNumber, int pageSize);
+        public Task<MealIngredient?> GetMealIngredientAsync(int mealId, int ingredientId);
+        public Task<bool> MealIngredientExistsAsync(int mealId, int ingredientId);
         public void AddMealIngredient(MealIngredient mealIngredient);
         public void DeleteMealIngredient(MealIngredient mealIngredient);
+        public (bool,string) VerifyGramMililiters(double grams, double mililiters);
     }
 }

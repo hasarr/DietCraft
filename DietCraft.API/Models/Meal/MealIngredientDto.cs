@@ -17,9 +17,9 @@ namespace DietCraft.API.Models.Meal
         [Required]
         public bool IsOptional {  get; set; }
 
-        public decimal? Grams {  get; set; }
+        public double Grams {  get; set; }
 
-        public decimal? Mililiters { get; set;}
+        public double Mililiters { get; set;}
 
         [Required]
         public int Quantity { get; set;}
