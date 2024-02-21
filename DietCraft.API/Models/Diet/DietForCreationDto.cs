@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace DietCraft.API.Models.Diet
 {
@@ -9,6 +10,7 @@ namespace DietCraft.API.Models.Diet
 
         [Required]
         [Range(0, int.MaxValue, ErrorMessage = "Please enter a positive number")]
+        [DefaultValue(0)]
         public int DietTypeId { get; set; }
 
         [Required]
@@ -16,6 +18,7 @@ namespace DietCraft.API.Models.Diet
 
         [Required]
         [Range(0, int.MaxValue, ErrorMessage = "Please enter a positive number")]
+        [DefaultValue(0)]
         public int UserIdIfCustom { get; set; }
     }
 }

@@ -147,6 +147,9 @@ namespace DietCraft.API.Controllers
             if(!await _ingredientRepository.IngredientExistsAsync(mealIngredient.IngredientId))
                 return BadRequest($"Ingredient with an id of: {mealIngredient.IngredientId} does not exist");
 
+            if(await _mealRepository.IngredientForMealExistsAsync(mealIngredient.MealId, mealIngredient.IngredientId) )
+                return BadRequest($"Ingredient with an id of {mealIngredient.IngredientId} already exists for a meal with an id of: {mealIngredient.MealId}");
+
             if(mealIngredient.Grams > 0 && mealIngredient.Mililiters > 0)
                 return BadRequest($"Grams cannot be added with mililiters at the same time - one of the parameters must be zero");
 
@@ -159,6 +162,35 @@ namespace DietCraft.API.Controllers
             await _dbSaveService.SaveChangesAsync();
 
             return Created();
+        }
+
+        [HttpPut("{mealId}/ingredients/{ingredientId}")]
+        public async Task<ActionResult> UpdateDiet([Required] int mealId, [Required] int ingredientId
+            , [Required] MealIngredientForUpdateDto mealIngredient)
+        {
+            if (!await _mealRepository.MealExistsAsync(mealId))
+            {
+                return NotFound($"Meal with an id of {mealId} does not exist");
+            }
+
+            if (!await _ingredientRepository.IngredientExistsAsync(ingredientId))
+            {
+                return BadRequest($"Ingredient with an id of {ingredientId} does not exist");
+            }
+
+            var mealIngredientEntity = await _mealRepository.GetIngredientForMealAsync(mealId, ingredientId);
+
+            if (mealIngredientEntity == null)
+            {
+                return NotFound();
+            }
+
+            //mapper forces modification of input data to source data in database
+            _mapper.Map(mealIngredient, mealIngredientEntity);
+
+            await _dbSaveService.SaveChangesAsync();
+
+            return NoContent();
         }
 
         #endregion

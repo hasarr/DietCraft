@@ -36,6 +36,18 @@ namespace DietCraft.API.Services.MealService
             _context.MealIngredients.Remove(mealIngredient);
         }
 
+        public async Task<MealIngredient?> GetIngredientForMealAsync(int mealId, int ingredientId)
+        {
+            var mealExists = await MealExistsAsync(mealId);
+            var ingredientExists = await _context.Ingredients.AnyAsync(i => i.Id == ingredientId);
+
+            if (!(mealExists || ingredientExists))
+                return null;
+
+            var mealIngredient = await _context.MealIngredients.Where(m => m.IngredientId == ingredientId && m.MealId == mealId).FirstOrDefaultAsync();
+            return mealIngredient;
+        }
+
         public async Task<(IEnumerable<MealIngredient>, PaginationMetadata)> GetIngredientsForMealAsync(int mealId, int pageNumber, int pageSize)
         {
             var mealExists = await MealExistsAsync(mealId);
@@ -75,6 +87,11 @@ namespace DietCraft.API.Services.MealService
                 .ToListAsync();
 
             return (collectionToReturn, paginationMetaData);
+        }
+
+        public async Task<bool> IngredientForMealExistsAsync(int mealId, int ingredientId)
+        {
+            return await _context.MealIngredients.AnyAsync(m => m.MealId == mealId && m.IngredientId == ingredientId);
         }
 
         public async Task<bool> MealExistsAsync(int mealId)

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 
 namespace DietCraft.API.Models.Meal
@@ -16,6 +17,7 @@ namespace DietCraft.API.Models.Meal
 
         [Required]
         [Range(0, int.MaxValue, ErrorMessage = "Please enter a positive number")]
-        public int UserIdIfCustom {  get; set; } 
+        [DefaultValue(0)]
+        public int UserIdIfCustom {  get; set; } = 0;
     }
 }
