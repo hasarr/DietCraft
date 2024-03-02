@@ -9,6 +9,7 @@ namespace DietCraft.API.Services.UserService
         public Task<User?> GetUserByNameAsync(string userName);
         public Task<bool> VerifyCredentialsAsync(string username, string password);
         public Task<bool> UserExistsAsync(string userName);
+        public Task<bool> UserExistsAsync(int userId);
         public void AddUser(User user);
         public void DeleteUser(User user);
         public Task LoginUserAsync(User user, string password, bool rememberMe);

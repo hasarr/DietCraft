@@ -1,5 +1,7 @@
 ﻿using DietCraft.API.DbContexts;
 using DietCraft.API.Entities;
+using DietCraft.API.Models.Diet;
+using DietCraft.API.Services.UserService;
 using Microsoft.EntityFrameworkCore;
 
 namespace DietCraft.API.Services.DietService
@@ -7,10 +9,12 @@ namespace DietCraft.API.Services.DietService
     public class DietRepository : IDietRepository
     {
         private readonly DietCraftContext _context;
+        private readonly IUserRepository _userRepository;
 
-        public DietRepository(DietCraftContext context)
+        public DietRepository(DietCraftContext context, IUserRepository userRepository)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
+            _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
         }
 
         public async Task<(IEnumerable<Diet>, PaginationMetadata)> GetDietsAsync(int pageNumber, int pageSize)
@@ -94,6 +98,58 @@ namespace DietCraft.API.Services.DietService
         public void DeleteDietType(DietType dietType)
         {
             _context.DietTypes.Remove(dietType);
+        }
+
+        public async Task<UserDiet?> GetDietForUserAsync(string userName, int dietId)
+        {
+            var userExists = await _userRepository.UserExistsAsync(userName);
+            var dietExists = await DietExistsAsync(dietId);
+            if (! (dietExists || userExists) )
+                return null;
+
+            var user = await _userRepository.GetUserByNameAsync(userName);
+
+            return await _context.UserDiets.Where(d => d.UserId == user.Id && d.DietId == dietId).FirstOrDefaultAsync();
+        }
+
+        public async Task<(List<UserDiet?>, PaginationMetadata)> GetDietsForUserAsync(string userName, int pageNumber, int pageSize)
+        {
+            if(await _userRepository.UserExistsAsync(userName))
+            {
+                var user = await _userRepository.GetUserByNameAsync(userName);
+                var collection = _context.UserDiets as IQueryable<UserDiet>;
+                var totalItemCount = await collection.CountAsync();
+                var paginationMetaData = new PaginationMetadata(totalItemCount, pageSize, pageNumber);
+
+                var collectionToReturn = await collection
+                .Where(d => d.UserId == user.Id)
+                .OrderBy(x => x.DietId)
+                .Skip(pageSize * (pageNumber - 1))
+                .Take(pageSize)
+                .ToListAsync();
+
+            return (collectionToReturn, paginationMetaData);
+
+            }
+
+            return (null,null);
+            
+        }
+
+        public void DeleteDietForUser(UserDiet userDiet)
+        {
+            _context.UserDiets.Remove(userDiet);
+        }
+
+        public async Task ClearDietsForUserAsync(string userName)
+        {
+           var user = await _userRepository.GetUserByNameAsync(userName);
+           await _context.UserDiets.Where(d => d.UserId == user.Id).ExecuteDeleteAsync();
+        }
+
+        public void AddUserDiet(UserDiet diet)
+        {
+            _context.UserDiets.Add(diet);
         }
     }
 }

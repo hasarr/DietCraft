@@ -125,5 +125,11 @@ namespace DietCraft.API.Services.UserService
         {
             return _httpContextAccessor.HttpContext.User.Identity.IsAuthenticated;
         }
+
+        public async Task<bool> UserExistsAsync(int userId)
+        {
+            return await _context.Users.AnyAsync(c => c.Id == userId);
+
+        }
     }
 }
