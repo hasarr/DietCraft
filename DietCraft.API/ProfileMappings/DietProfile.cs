@@ -13,6 +13,9 @@ namespace DietCraft.API.ProfileMappings
             CreateMap<Entities.DietType, Models.Diet.DietTypeDto>();
             CreateMap<Models.Diet.DietTypeForUpdateDto, Entities.DietType>();
             CreateMap<Models.Diet.DietTypeForCreationDto, Entities.DietType>();
+
+            CreateMap<Models.Diet.UserDietForUpdateDto, Entities.UserDiet>();
+            CreateMap<Models.Diet.UserDietForCreationDto, Entities.UserDiet>();
         }
     }
 }
